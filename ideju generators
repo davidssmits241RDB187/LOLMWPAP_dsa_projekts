@@ -7,11 +7,11 @@ Sekciju apzīmējumi:
 
 TLDR:
 1. Input: https://lolesports.com/en-GB/
-2. Output: Match, match team names
-3. Input: match team name into https://gol.gg/esports/home/
-4. Output: Relevent stats from https://gol.gg/esports/home/ 
-5. Input: Acquired stats into the algorithm 
-6. Output: Teams chances to win
+1. Output: Match, match team names
+2.1. Input: match team name into https://gol.gg/esports/home/
+2.1. Output: Relevent stats from https://gol.gg/esports/home/ 
+2.3. Input: Acquired stats into the algorithm 
+2.3. Output: Teams chances to win
 
 
 
