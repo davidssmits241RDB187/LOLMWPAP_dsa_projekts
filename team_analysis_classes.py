@@ -54,14 +54,14 @@ class Team:
         if tournament_name in []: # 2nd tier leagues
             match_coefficient = 1
         elif tournament_name in []: # 1st tier leagues
-            match_coefficient = 2 # changable
+            match_coefficient = 2 # is changable
             
         self.gold_lead += (1/gold_lead) * match_coefficient
         
         for player in match_players: # maybe change to go through each role and use role coefficients
             player.matches_played += 1
             player.kda += player.kda*match_coefficient
-            player.kp += (player.kda/tournament_kills)*match_coefficient
+            player.kp += (player.kda/tournament_kills)*match_coefficient # maybe dividing with zero
             player.cspm += player.cspm*match_coefficient
             player.vspm += player.vspm*match_coefficient
             player.dmg += player.dmg*match_coefficient
