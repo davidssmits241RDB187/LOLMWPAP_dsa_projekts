@@ -1,4 +1,4 @@
-
+from dataclasses import dataclass,field
 
 class Player:
     def __init__(self, team, role, name, kda, kp, cspm, vspm, dmg, gold, champions_dictionary, champion_played):
@@ -21,8 +21,38 @@ class Player:
         self.matches_played = 0
         self.player_evaluation += self.kda + self.kp + self.cspm + self.vspm + self.dmg
         
+        
+@dataclass
+class DefaultTeamValues():
+    winrate: dict[str, float] = field(default_factory=dict)
+    gold_per_minute: float
+    gold_differential_per_minute:float
+    gold_differential_at_15_min:float
+    cspm:float
+    cs_differential_at_15_min:float
+    tower_differential_at_15_min:float
+    avg_tower_difference:float
+    first_tower:float
+    
+    damage_per_minute:float
+    first_blood:float
+    kills_per_game:float
+    deaths_per_game:float
+    avg_kd:float
+    
+    plates_per_game:float
+    plates_per_game_per_side: dict[str,float]= field(default_factory=dict)
+    dragons_per_game:float
+    dragons_at_15_min:float
+    void_grubs_per_game:float
+    atakhan_per_game:float
+    herald_per_game:float
+    nashor_per_game:float
+    feats_of_strength:float
+    
+    vision_score_per_minute:float
 class Team:
-    def __init__(self,players):
+    def __init__(self,players,winrate,gold_per_minute,gold_differential_per_minute, gold_differential_at_15_min, cspm, cs_differential_at_15_min,tower_differential_at_15_min, avg_tower_difference, first_tower, damage_per_minute, first_blood,kills_per_game,deaths_per_game,avg_kd,plates_per_game,plates_per_game_per_side,dragons_per_game,dragons_at_15_min,void_grubs_per_game,atakhan_per_game,herald_per_game,nashor_per_game,feats_of_strength):
         
         #!this section is for live game analysis, not essential!
         self.dragon_priority = {} #example {cloud: [11, 6], ocean: [8, 12]} first in list is killed, second in list is lost
@@ -30,35 +60,8 @@ class Team:
         self.side_winrates = [0,0]
         #!
         
-        self.winrate = 0
-        
-        self.gold_per_minute = 0
-        self.gold_differential_per_minute = 0
-        self.gold_differential_at_15_min = 0
-        self.cspm = 0
-        self.cs_differential_at_15_min = 0
-        self.tower_differential_at_15_min = 0
-        self.avg_tower_difference = 0
-        self.first_tower = 0
-        
-        self.damage_per_minute = 0
-        self.first_blood = 0
-        self.kills_per_game = 0
-        self.deaths_per_game = 0
-        self.avg_kd = 0
-        
-        self.plates_per_game = 0
-        self.plates_per_game_per_side = {} # example top:1.2, mid:0.7
-        self.dragons_per_game = 0
-        self.dragons_at_15_min = 0
-        self.void_grubs_per_game = 0
-        self.atakhan_per_game = 0
-        self.herald_per_game = 0
-        self.nashor_per_game = 0
-        self.feats_of_strength = 0
-        
-        self.vision_score_per_minute = 0
-        
+        self.default_team_values = DefaultTeamValues(winrate,gold_per_minute,gold_differential_per_minute,gold_differential_at_15_min,)
+    
         self.players = players
         self.team_evaluation = 0
         self.matches = 0
@@ -114,8 +117,13 @@ class Match:
         self.support_coefficient = 1
 
     def evaluate_team1_vs_team2_default(self):
-        if self.team1.top_laner.player_evaluation > self.team2.top_laner.player_evaluation:
-            self.team1.team_evaluation += 1*self.top_coefficient
+        pass
+            
+    def evaluate_values(self,value_for_team1, value_for_team2):
+        if value_for_team1>value_for_team2:
+            self.team1.team_evaluation+=1
+        elif value_for_team1<value_for_team2:
+            self.team2.team_evaluation+=1
         
             
             
