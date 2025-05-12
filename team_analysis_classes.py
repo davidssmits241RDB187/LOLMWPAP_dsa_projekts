@@ -1,4 +1,4 @@
-from dataclasses import dataclass,field
+from dataclasses import dataclass, field, asdict
 
 class Player:
     def __init__(self, team, role, name, kda, kp, cspm, vspm, dmg, gold, champions_dictionary, champion_played):
@@ -19,13 +19,13 @@ class Player:
         
         self.champions_dictionary = champions_dictionary # champion name: win percentage (example-> janna:0.63)
         self.matches_played = 0
-        self.player_evaluation += self.kda + self.kp + self.cspm + self.vspm + self.dmg
+        self.player_evaluation = self.kda + self.kp + self.cspm + self.vspm + self.dmg
         
 
 
 @dataclass
 class DefaultTeamValues:
-    winrate: dict[str, float] = field(default_factory=dict)
+    winrate: float
     gold_per_minute: float
     gold_differential_per_minute:float
     gold_differential_at_15_min:float
@@ -42,7 +42,7 @@ class DefaultTeamValues:
     avg_kd:float
     
     plates_per_game:float
-    plates_per_game_per_side: dict[str,float]= field(default_factory=dict)
+    plates_per_game_per_side: float
     dragons_per_game:float
     dragons_at_15_min:float
     void_grubs_per_game:float
@@ -157,8 +157,6 @@ def evaluate_coefficients(self,winning_team,losing_team,read_coefficients):
                    read_coefficients.jungle_kda[0] += 1
                 elif winning_team.players[i].role == "mid":
                    read_coefficients.mid_kda[0] += 1
-                elif winning_team.players[i].role == "mid":
-                   read_coefficients.mid_kda[0] += 1
                 elif winning_team.players[i].role == "bot":
                    read_coefficients.bot_kda[0] += 1
                 elif winning_team.players[i].role == "support":
@@ -172,12 +170,16 @@ class Match:
         self.history = [0,0]
         self.top_coefficient = 1
         self.jungle_coefficient = 1
-        self.mid_coefficient = 1
+        self.mid_coefficient = 1 
         self.adc_coefficient = 1
         self.support_coefficient = 1
 
     def evaluate_team1_vs_team2_default(self):
-        pass
+        team1_values = asdict(self.team1.default_team_values) 
+        team2_values = asdict(self.team2.default_team_values)
+        for key in team1_values:
+            self.evaluate_values(team1_values[key],team2_values[key])
+        
             
     def evaluate_values(self,value_for_team1, value_for_team2):
         if value_for_team1>value_for_team2:
