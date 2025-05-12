@@ -1,6 +1,11 @@
 from dataclasses import dataclass, field
+from teams_class import Team
+from coefficient_file_management import write_match_to_file, read_matches_from_file
+from match_class import Match
+from player_class import Player
 @dataclass
 class Coefficients:
+    
     gold_lead: list[float] = field(default_factory=lambda: [1.0, 1.0])
     kills: list[float] = field(default_factory=lambda: [1.0, 1.0])
     towers: list[float] = field(default_factory=lambda: [1.0, 1.0])
@@ -19,7 +24,7 @@ class Coefficients:
     
     jungle_kda: list[float] = field(default_factory=lambda: [1.0, 1.0])
     jungle_csm: list[float] = field(default_factory=lambda: [1.0, 1.0])
-    jugnle_dpm: list[float] = field(default_factory=lambda: [1.0, 1.0])
+    jungle_dpm: list[float] = field(default_factory=lambda: [1.0, 1.0])
     jungle_wpm: list[float] = field(default_factory=lambda: [1.0, 1.0])
     
     bot_kda: list[float] = field(default_factory=lambda: [1.0, 1.0])
