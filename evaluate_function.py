@@ -7,6 +7,7 @@ from player_class import Player
 def evaluate_coefficients(winning_team:Team,losing_team:Team):
         read_coefficients = read_matches_from_file("coefficients.txt")
         
+        
         #kda csm dpm wpm
         #gold_lead kills towers dragons barons
         '''
@@ -15,7 +16,6 @@ def evaluate_coefficients(winning_team:Team,losing_team:Team):
         lost higher [0,+1]
         lost lower [0,0]
         '''
-        
         
         default_team_values_list = ["gold_per_minute_or_gold_lead", "kills_per_game","avg_tower_difference","dragons_per_game_or_match","nashor_per_game"]
         team_coeffs = ["gold_lead","kills","towers","dragons","barons"]
