@@ -1,10 +1,10 @@
 
-from teams_class import Team
-from coefficient_file_management import write_match_to_file, read_matches_from_file
 
+from coefficient_file_management import write_coeffs_to_file, read_coeffs_from_file
+from team_service import Team
 
 def evaluate_coefficients(winning_team:Team,losing_team:Team):
-        read_coefficients = read_matches_from_file("coefficients.txt")
+        read_coefficients = read_coeffs_from_file("coefficients.txt")
         
         #kda csm dpm wpm
         #gold_lead kills towers dragons barons
@@ -20,8 +20,8 @@ def evaluate_coefficients(winning_team:Team,losing_team:Team):
         team_coeffs = ["gold_lead","kills","towers","dragons","barons"]
         for x in range(5):
             
-            win_value = getattr(getattr(winning_team,"default_team_values"),default_team_values_list[x])
-            los_value = getattr(getattr(losing_team,"default_team_values"),default_team_values_list[x])
+            win_value = getattr(winning_team,default_team_values_list[x])
+            los_value = getattr(losing_team,default_team_values_list[x])
             if win_value > los_value:
                 getattr(read_coefficients,team_coeffs[x])[0]+=1
             elif win_value < los_value:
@@ -42,4 +42,4 @@ def evaluate_coefficients(winning_team:Team,losing_team:Team):
                     getattr(read_coefficients, coeff)[1] += 1
 
             
-        write_match_to_file(read_coefficients)
+        write_coeffs_to_file(read_coefficients)

@@ -1,6 +1,10 @@
 
 from teams_class import Team
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 class Player:
     def __init__(self, team:Team, role:str, name:str, kda:float, kp:float, cspm:float, vspm:float, dmg:float, gold:float, champions_dictionary:dict, champion_played:str):
         self.team = team

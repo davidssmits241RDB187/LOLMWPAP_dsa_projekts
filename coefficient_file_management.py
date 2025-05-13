@@ -9,14 +9,14 @@ def flatten_coeffs(coeffs: Coefficients):
             coefficients.append(str(value))
     return coefficients
 
-def write_match_to_file(coefficients: Coefficients):
+def write_coeffs_to_file(coefficients: Coefficients):
     filename =  "coefficients.txt"
     flattened = flatten_coeffs(coefficients)
     line = ";".join(flattened)
     with open(filename, "w") as f:
         f.write(line)
 
-def read_matches_from_file():
+def read_coeffs_from_file():
     filename =  "coefficients.txt"
     try:
         with open(filename, "r") as f:
