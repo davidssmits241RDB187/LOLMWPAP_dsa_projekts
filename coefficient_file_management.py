@@ -1,7 +1,5 @@
 from coefficients_class import Coefficients
-from teams_class import Team
-from match_class import Match
-from player_class import Player
+
 
 
 def flatten_coeffs(coeffs: Coefficients):
