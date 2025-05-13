@@ -13,7 +13,7 @@ lolesports_address = "https://lolesports.com/en-GB/"
 
 class Serialization:
     def encode_value(x):
-        print(f"Encoding value: {x}")
+        #print(f"Encoding value: {x}")
         if dataclasses.is_dataclass(x):
             return dataclasses.asdict(x)
         return x
@@ -27,6 +27,13 @@ class DataService:
             if os.path.isfile("data.json"):
                 with open("data.json", "r") as file:
                     self.teams = json.load(file)
+                    for team in self.teams:
+                        team_object = Team()
+                        for key in self.teams[team].keys():
+                            setattr(team_object, key, self.teams[team][key])
+                        self.teams[team] = team_object
+                print(f"Loaded {len(self.teams)} teams from file.")
+                
             else:
                 self.fetch_teams()
         except Exception as e:
@@ -51,7 +58,6 @@ class DataService:
                 table_row = link.parent.parent
                 team_stats = table_row.find_all('td', class_="text-center")
                 team = Team()
-                team.team_name = link_value
                 for i in range(0, len(team_stats)):
                     stat_value = team_stats[i].string
                     setattr(team, TeamRow[i], stat_value)
@@ -69,7 +75,7 @@ class DataService:
         print("Getting team...")
         try:
             if team_name in self.teams:
-                return self.teams[team_name]
+                print(self.teams[team_name])
             else:
                 print(f"Team {team_name} not found.")
         except Exception as e:
