@@ -1,11 +1,11 @@
-from coefficients_class import Coefficients
-from teams_class import Team
-from coefficient_file_management import write_match_to_file, read_matches_from_file
-from match_class import Match
-from player_class import Player
-from evaluate_function import evaluate_coefficients
 
+from data_service import DataService
 
 
 def main():
-    pass
+    # * test data
+    print("Testing data service")
+    data_service = DataService()
+    data_service.get_team("T1")
+
+main()
