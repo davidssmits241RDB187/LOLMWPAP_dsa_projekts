@@ -1,6 +1,7 @@
 from team_service import Team
 from team_data_types import TeamRow
 
+import dataclasses
 import os.path
 import json
 import requests
@@ -12,21 +13,25 @@ lolesports_address = "https://lolesports.com/en-GB/"
 
 class Serialization:
     def encode_value(x):
-    if dataclasses.is_dataclass(x):
-        return dataclasses.asdict(x)
-    elif isinstance(x, datetime.datetime):
-        return x.isoformat()
-    # other special cases... 
+        print(f"Encoding value: {x}")
+        if dataclasses.is_dataclass(x):
+            return dataclasses.asdict(x)
+        return x
 
-    return x
+
 
 class DataService:
     def __init__(self):
         self.teams = {}
-        if os.path.isfile("data.json"):
-            with open("data.json", "r") as file:
-                self.teams = json.load(file)
-        else:
+        try:
+            if os.path.isfile("data.json"):
+                with open("data.json", "r") as file:
+                    self.teams = json.load(file)
+            else:
+                self.fetch_teams()
+        except Exception as e:
+            print("Error loading data")
+            print(e.args[0])
             self.fetch_teams()
 
     def fetch_teams(self):
@@ -48,12 +53,11 @@ class DataService:
                 team = Team()
                 team.team_name = link_value
                 for i in range(0, len(team_stats)):
-                    print(team_stats[i].string)
                     stat_value = team_stats[i].string
                     setattr(team, TeamRow[i], stat_value)
                 self.teams[link_value] = team
             with open("data.json", "w") as file:
-                json.dump(self.teams, file, default=lambda o: if hasattr(o, '__json__')
+                json.dump(self.teams, file, default=Serialization.encode_value)
         except requests.exceptions.RequestException as e:
             print("Request Exception")
                 

@@ -2,9 +2,9 @@ from dataclasses import dataclass
 
 @dataclass
 class Team:
-    team_name:                      str = None
-    season:                         str = None
-    region:                         str = None
+    team_name:                      str = ""
+    season:                         str = ""
+    region:                         str = ""
     games:                          int = 0
     winrate:                        float = 0.0
     avg_kd:                         float = 0.0
