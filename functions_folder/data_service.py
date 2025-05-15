@@ -1,5 +1,5 @@
-from team_service import Team
-from team_data_types import TeamRow
+from classes_folder.team_classes_folder.team_service import Team
+from classes_folder.team_classes_folder.team_data_types import TeamRow
 
 import dataclasses
 import os.path

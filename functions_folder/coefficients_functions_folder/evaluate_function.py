@@ -1,5 +1,5 @@
 
-from classes_folder.team_classes_folder.teams_class import Team
+from classes_folder.team_classes_folder.team_service import Team
 from functions_folder.coefficients_functions_folder.coefficient_file_management import write_match_to_file, read_matches_from_file
 
 

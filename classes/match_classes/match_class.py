@@ -1,7 +1,7 @@
 from dataclasses import asdict
-from team_service import Team
-from coefficient_file_management import read_matches_from_file
-from player_service import Player
+from classes_folder.team_classes_folder.team_service import Team
+from functions.coefficient_file_management import read_matches_from_file
+from classes_folder.player_classes_folder.player_service import Player
 class Match:
     def __init__(self, team1:Team, team2:Team):
         self.team1 = team1

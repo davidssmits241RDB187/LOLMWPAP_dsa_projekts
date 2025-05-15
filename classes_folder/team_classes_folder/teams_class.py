@@ -1,8 +1,8 @@
-from coefficients_class import Coefficients
-from teams_class import Team
-from coefficient_file_management import write_match_to_file, read_matches_from_file
-from match_class import Match
-from player_class import Player
+from classes_folder.coefficients_classes_folder.coefficients_class import Coefficients
+from classes_folder.team_classes_folder.teams_class import Team
+from functions_folder.coefficients_functions_folder.coefficient_file_management import write_match_to_file, read_matches_from_file
+from classes_folder.match_classes_folder.match_class import Match
+from classes_folder.player_classes_folder.player_class import Player
 from dataclasses import dataclass
 @dataclass
 class DefaultTeamValues:
