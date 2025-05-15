@@ -1,6 +1,6 @@
 
 from functions_folder.data_service import DataService
-from functions_folder.coefficients_functions_folder.coefficient_evaluation_web_reader import scrape_and_evaluate_matches
+from functions_folder.coefficients_functions_folder.coefficient_evaluation_web_reader import scrape_match_links
 
 def main():
     # * test data
@@ -9,6 +9,6 @@ def main():
     data_service = DataService()
     data_service.get_team("T1")
     '''
-    scrape_and_evaluate_matches()
+    print(scrape_match_links())
     
 main()

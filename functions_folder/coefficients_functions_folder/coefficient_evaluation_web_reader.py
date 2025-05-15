@@ -1,68 +1,79 @@
-import requests
-from bs4 import BeautifulSoup
-import re
-import time
-from classes_folder.team_classes_folder.team_service import Team
-from classes_folder.player_classes_folder.player_service import Player
-from functions_folder.coefficients_functions_folder.evaluate_function import evaluate_coefficients
+# using selenium to instance the browser to get all the values from the js scripts
 
-headers = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36",
-    "Accept-Language": "en-US,en;q=0.9",
-    "Referer": "https://google.com",
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"
-}
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions
 
-import requests
-from bs4 import BeautifulSoup
-import re
-
-headers = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36",
-    "Accept-Language": "en-US,en;q=0.9",
-    "Referer": "https://google.com",
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"
-}
-
-def scrape_and_evaluate_matches():
-    base_url = "https://gol.gg"
-    url1 = f"{base_url}/esports/home/"
-
-    session = requests.Session()
-    response1 = session.get(url1, headers=headers)
-
-    if response1.status_code != 200:
-        print(f"Failed to retrieve data: {response1.status_code}")
-        return
-
-    soup = BeautifulSoup(response1.text, "html.parser")
-    body = soup.body
+def scrape_match_links():
+    # gets rid of window pop up
+    options = Options()
+    options.add_argument("--headless")  
+    options.add_argument("--disable-gpu")
+   
+    # initializes the browser instance
+    driver = webdriver.Chrome(options=options)
+    # navigates the browser to the home page
+    driver.get("https://gol.gg/esports/home/")
 
     matches = []
+    # links are located in the 3d tr section of page, full path in old version using beautiful soup and requests
+    '''
+     div1_list = body.find_all("div",class_="container-fluid main")
+        for div1 in div1_list:
+        main = div1.find("main")
+        div2rrf = main.find("div",class_="row row-fluid")
+        div3c12m4 = div2rrf.find("div", class_=["col-12", "mt-4"])
 
-    # Select all <a> inside <td class="footable-visible">
-    match_links = body.select('td.footable-visible a[href]')
+        div4rpfmc = div3c12m4.find("div",class_="row p-4 fond-main-core")
+        div5c12cl10 = div4rpfmc.find("div",class_="col-12 col-lg-10")
+        article1 = div5c12cl10.find("article")
+        div6lgt = article1.find("div", id = "lastgames_tab")
+        table1tlftsfflpb = div6lgt.find("table", class_="table_list footable toggle-square-filled footable-loaded phone breakpoint")
+        tbody1 = table1tlftsfflpb.find("tbody")
+        tr1 = tbody1.find("tr")
+        td1 = tr1.find("td", class_="footable-visible footable-last-column")
+        href = td1.find("a")
+        matches.append(href)
+    '''
+  
 
-    for link in match_links:
-        href = link['href']
-        # Match your pattern exactly
-        if re.match(r"^(\.\./)?game/stats/\d+/page-game/?$", href):
-            match_text = link.text.strip()
+    try:
+        wait = WebDriverWait(driver, 30)
+        
 
-            if href.startswith(".."):
-                full_url = base_url + href[2:]
-            elif href.startswith("/"):
-                full_url = base_url + href
-            else:
-                full_url = base_url + "/" + href
+        wait.until(expected_conditions.presence_of_element_located((By.CSS_SELECTOR, "#lastgames_tab table tbody tr")))
+        rows = driver.find_elements(By.CSS_SELECTOR, "#lastgames_tab table tbody tr")
+       
+        i=0
+        for row in rows:
+            try:
+                tds = row.find_elements(By.TAG_NAME, "td")
+                # link is in 3d td
+                if len(tds) < 3:
+                    print(f"Row {i}: Not enough columns")
+                    continue
 
-            matches.append({
-                "text": match_text,
-                "url": full_url
-            })
+                game_td = tds[2]
+                a_tag = game_td.find_element(By.TAG_NAME, "a")
+                href_raw = a_tag.get_attribute("href")
 
-    for match in matches:
-        print(f"{match['text']} -> {match['url']}")
+                if href_raw.startswith("../"):
+                    href = "https://gol.gg" + href_raw[2:]
+                else:
+                    href = href_raw
 
-    print(f"\nTotal matches scraped: {len(matches)}")
+               
+                matches.append(href)
+                i+=1
+            except Exception as e:
+                print(f"Row {i} error: {e}")
+
+    finally:
+        driver.quit()
+
+   
+    return matches
+
 
