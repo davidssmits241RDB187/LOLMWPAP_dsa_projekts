@@ -6,16 +6,7 @@ from classes_folder.team_classes_folder.team_service import Team
 from classes_folder.player_classes_folder.player_service import Player
 from functions_folder.coefficients_functions_folder.evaluate_function import evaluate_coefficients
 
-headers = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36",
-    "Accept-Language": "en-US,en;q=0.9",
-    "Referer": "https://google.com",
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"
-}
 
-import requests
-from bs4 import BeautifulSoup
-import re
 
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36",
