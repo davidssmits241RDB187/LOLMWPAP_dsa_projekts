@@ -1,5 +1,5 @@
 # using selenium to instance the browser to get all the values from the js scripts
-
+import traceback
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
@@ -42,9 +42,10 @@ def scrape_match_links():
     try:
         wait = WebDriverWait(driver, 30)
         
+       
 
-        wait.until(expected_conditions.presence_of_element_located((By.CSS_SELECTOR, "#lastgames_tab table tbody tr")))
-        rows = driver.find_elements(By.CSS_SELECTOR, "#lastgames_tab table tbody tr")
+        wait.until(expected_conditions.presence_of_element_located((By.CSS_SELECTOR, " #lastgames_tab > table > tbody")))
+        rows = driver.find_elements(By.CSS_SELECTOR, " #lastgames_tab > table > tbody > tr")
        
         i=0
         for row in rows:
@@ -63,17 +64,49 @@ def scrape_match_links():
                     href = "https://gol.gg" + href_raw[2:]
                 else:
                     href = href_raw
-
-               
+                    
+                #remove the game page part of the link
+                href = href[:-10]
                 matches.append(href)
                 i+=1
+            
+    
             except Exception as e:
                 print(f"Row {i} error: {e}")
+                
+                
+        i=0
+        while i < 10:
+            matches[i] = matches[i]+"page-summary/"
+            i+=1
+        w_l = [0,0]
+        for match_url in matches:
+            driver.get(match_url)
+
+            try:
+                # Wait for the page to be fully loaded
+                WebDriverWait(driver, 30).until(
+                    lambda d: d.execute_script("return document.readyState") == "complete"
+                )
+                #wait for 
+                wait.until(expected_conditions.presence_of_element_located((By.CSS_SELECTOR, "h1.text_victory, h1.text_defeat")))
+
+                headers = driver.find_elements(By.CSS_SELECTOR, "h1.text_victory, h1.text_defeat")
+                for header in headers:
+                    text = driver.execute_script("return arguments[0].textContent", header)
+                    print(text)
+
+                print("\n")
+
+            except Exception as e:
+                print(f"Error loading match page {i}: {type(e).__name__} - {e}")
+                traceback.print_exc()
 
     finally:
         driver.quit()
 
    
-    return matches
+   
+   
 
 
