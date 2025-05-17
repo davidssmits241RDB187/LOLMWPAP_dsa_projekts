@@ -14,13 +14,15 @@ class Match:
         self.team2_evaluation = 0
         self.history = [0,0]
         self.coefficients = asdict(read_matches_from_file())
-        
-   
+    
+    def dict_to_player(self,player_dict):
+        return Player(**player_dict)
+
 
     def evaluate_team1_vs_team2_default(self):
-        # Compare float fields of the Team (excluding players)
-        team1_dict = asdict(self.team1)
-        team2_dict = asdict(self.team2)
+        
+        team1_dict = vars(self.team1)
+        team2_dict = vars(self.team2)
 
         for key in team1_dict:
             
@@ -28,53 +30,63 @@ class Match:
             val1 = team1_dict[key]
             val2 = team2_dict[key]
 
-            self.evaluate_values(key, val1, val2)  # Pass key here!
-
-        # Compare Player objects
-        for role in ['top', 'jungle', 'mid', 'adc', 'support']:
-            player1 = getattr(self.team1, role)
-            player2 = getattr(self.team2, role)
-            if player1 and player2:
-                self.evaluate_values(None,player1, player2)
-
-
+            self.evaluate_values(key, val1, val2)  
+            
         print(f"{self.team1_name} score: {self.team1_evaluation} ========= {self.team2_name} score: {self.team2_evaluation}")
 
 
-  
+    
+
                 
-    def evaluate_values(self,key_for_coeff, value_for_team1, value_for_team2):
+    def evaluate_values(self, key_for_coeff, value_for_team1, value_for_team2):
+
         
-        #check if inputed value is a float value of the team object 
-        if isinstance(value_for_team1, float) and isinstance(value_for_team2, float):
+        try:
+            if isinstance(value_for_team1, str) and isinstance(value_for_team2, str):
+                value_for_team1 = float(value_for_team1)
+                value_for_team2 = float(value_for_team2)
+            elif isinstance(value_for_team1, dict) and isinstance(value_for_team2, dict):
+                value_for_team1 = Player(**value_for_team1)
+                value_for_team2 = Player(**value_for_team2)
+        except Exception as e:
+            print(f"An unexpected error occurred: {e}")
             
+            
+       
+        if isinstance(value_for_team1, (float, int)) and isinstance(value_for_team2, (float, int)):
             coeff = self.coefficients.get(key_for_coeff, None)
             if coeff and isinstance(coeff, list) and len(coeff) == 2 and coeff[1] != 0:
                 multiplier = coeff[0] / coeff[1]
             else:
-                multiplier = 1.0 
+                multiplier = 1.0
 
             if value_for_team1 > value_for_team2:
                 self.team1_evaluation += multiplier
-                print(f"increased team1 by {multiplier} {key_for_coeff} {value_for_team1} {value_for_team2}")
+                print(f"increased team1 by {multiplier} for {key_for_coeff}: {value_for_team1} > {value_for_team2}")
             elif value_for_team1 < value_for_team2:
                 self.team2_evaluation += multiplier
-                print(f"increased team2 by {multiplier} {key_for_coeff} {value_for_team1} {value_for_team2}")
+                print(f"increased team2 by {multiplier} for {key_for_coeff}: {value_for_team1} < {value_for_team2}")
+            return
 
-        #check if the inputed value is a player object of the team object
-        #go through each of the player objects values and evaluate
-        elif isinstance(value_for_team1, Player) and isinstance(value_for_team2, Player):
-            
+        
+        if isinstance(value_for_team1, Player) and isinstance(value_for_team2, Player):
+            print(f"Evaluating Player objects for role: {value_for_team1.role}")
             player1_values = asdict(value_for_team1)
             player2_values = asdict(value_for_team2)
 
-            for key in player1_values:
-                val1 = player1_values[key]
-                val2 = player2_values[key]
-                if isinstance(val1, float) and isinstance(val2, float):
+            for subkey in player1_values:
+                val1 = player1_values[subkey]
+                val2 = player2_values[subkey]
+                try:
+                    if isinstance(value_for_team1, str) and isinstance(value_for_team2, str):
+                        value_for_team1 = float(value_for_team1)
+                        value_for_team2 = float(value_for_team2)
+               
+                except Exception as e:
+                    print(f"An unexpected error occurred: {e}")
                     
-                    role = value_for_team1.role
-                    coeff_key = f"{role}_{key}"
+                if isinstance(val1, (float, int)) and isinstance(val2, (float, int)):
+                    coeff_key = f"{value_for_team1.role}_{subkey}"
                     coeff = self.coefficients.get(coeff_key, None)
                     if coeff and isinstance(coeff, list) and len(coeff) == 2 and coeff[1] != 0:
                         multiplier = coeff[0] / coeff[1]
@@ -82,16 +94,13 @@ class Match:
                         multiplier = 1.0
 
                     if val1 > val2:
-                        value_for_team1.player_evaluation += multiplier
                         self.team1_evaluation += multiplier
-                        print(f"increased team1 by {multiplier} {key} {value_for_team1} {value_for_team2}")
+                        print(f"increased team1 by {multiplier} for {coeff_key}: {val1} > {val2}")
                     elif val1 < val2:
-                        value_for_team2.player_evaluation += multiplier
                         self.team2_evaluation += multiplier
-                        print(f"increased team2 by {multiplier} {key} {value_for_team1} {value_for_team2}")
-                
-                
-                
-            
-            
-            
+                        print(f"increased team2 by {multiplier} for {coeff_key}: {val1} < {val2}")
+                else:
+                    print(f"Skipping player subkey {subkey}: not float/int ({type(val1)})")
+            return
+
+       
