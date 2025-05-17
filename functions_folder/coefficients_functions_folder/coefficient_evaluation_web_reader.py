@@ -6,6 +6,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 
+from classes_folder.team_classes_folder.team_service import Team
+
 def scrape_match_links():
     # gets rid of window pop up
     options = Options()
@@ -18,25 +20,7 @@ def scrape_match_links():
     driver.get("https://gol.gg/esports/home/")
 
     matches = []
-    # links are located in the 3d tr section of page, full path in old version using beautiful soup and requests
-    '''
-     div1_list = body.find_all("div",class_="container-fluid main")
-        for div1 in div1_list:
-        main = div1.find("main")
-        div2rrf = main.find("div",class_="row row-fluid")
-        div3c12m4 = div2rrf.find("div", class_=["col-12", "mt-4"])
-
-        div4rpfmc = div3c12m4.find("div",class_="row p-4 fond-main-core")
-        div5c12cl10 = div4rpfmc.find("div",class_="col-12 col-lg-10")
-        article1 = div5c12cl10.find("article")
-        div6lgt = article1.find("div", id = "lastgames_tab")
-        table1tlftsfflpb = div6lgt.find("table", class_="table_list footable toggle-square-filled footable-loaded phone breakpoint")
-        tbody1 = table1tlftsfflpb.find("tbody")
-        tr1 = tbody1.find("tr")
-        td1 = tr1.find("td", class_="footable-visible footable-last-column")
-        href = td1.find("a")
-        matches.append(href)
-    '''
+   
   
 
     try:
@@ -46,7 +30,7 @@ def scrape_match_links():
 
         wait.until(expected_conditions.presence_of_element_located((By.CSS_SELECTOR, " #lastgames_tab > table > tbody")))
         rows = driver.find_elements(By.CSS_SELECTOR, " #lastgames_tab > table > tbody > tr")
-       
+        
         i=0
         for row in rows:
             try:
@@ -79,10 +63,10 @@ def scrape_match_links():
         while i < 10:
             matches[i] = matches[i]+"page-summary/"
             i+=1
-        w_l = [0,0]
+        ws_ls= []
         for match_url in matches:
             driver.get(match_url)
-
+            w_l=[]
             try:
                 # Wait for the page to be fully loaded
                 WebDriverWait(driver, 30).until(
@@ -95,13 +79,18 @@ def scrape_match_links():
                 for header in headers:
                     text = driver.execute_script("return arguments[0].textContent", header)
                     print(text)
+                    w_l.append(text)
 
                 print("\n")
 
             except Exception as e:
                 print(f"Error loading match page {i}: {type(e).__name__} - {e}")
                 traceback.print_exc()
-
+            ws_ls.append(w_l)
+            
+        print(ws_ls)
+        
+        
     finally:
         driver.quit()
 
