@@ -1,9 +1,10 @@
 from dataclasses import dataclass, field
-from player_service import Player
+from services.player_service import Player
 
 @dataclass
 class Team:
     # _var = %
+    name:                           str = ""
     region:                         str = ""
     season:                         str = ""
     winrate:                        str = ""

@@ -1,6 +1,6 @@
-from team_service import Team
-from player_service import Player
-from data_types import RowData, PlayerData
+from services.team_service import Team
+from services.player_service import Player
+from data.data_types import RowData, PlayerData
 
 import dataclasses
 import os.path
@@ -30,8 +30,8 @@ class DataService:
     def __init__(self):
         self.teams = {}
         try:
-            if os.path.isfile("data.json"):
-                with open("data.json", "r") as file:
+            if os.path.isfile("data/data.json"):
+                with open("data/data.json", "r") as file:
                     self.teams = json.load(file)
                     for team in self.teams:
                         team_object = Team()
@@ -73,6 +73,7 @@ class DataService:
             team_stats =  DataService.fetch_data(team_stats_address)
             team_rows = team_stats.find_all("tr")
             team = Team()
+            team.name = team
             last_row = ""
             for row in team_rows:
                 row_data = row.find_all("td")
@@ -123,7 +124,7 @@ class DataService:
             self.teams[team_name] = team
             print(f"Fetched team: {team_name}")
         try:
-            with open("data.json", "w") as file:
+            with open("data/data.json", "w") as file:
                 json.dump(self.teams, file, default=Serialization.encode_value)
         except Exception as e:
             print("Error saving data")

@@ -1,8 +1,8 @@
 from dataclasses import dataclass, field
-from teams_class import Team
-from coefficient_file_management import write_match_to_file, read_matches_from_file
-from match_class import Match
-from player_class import Player
+from classes.teams_class import Team
+from functions.coefficient_file_management import write_match_to_file, read_matches_from_file
+from classes.match_class import Match
+from classes.player_class import Player
 @dataclass
 class Coefficients:
     

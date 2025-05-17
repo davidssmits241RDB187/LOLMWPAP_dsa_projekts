@@ -1,5 +1,5 @@
 
-from data_service import DataService
+from services.data_service import DataService
 
 
 def main():
