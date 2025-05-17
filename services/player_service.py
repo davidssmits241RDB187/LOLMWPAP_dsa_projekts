@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, asdict
 
 @dataclass
 class Player:
@@ -19,3 +19,5 @@ class Player:
             self.champions[champion_name] += matches_played
         else:
             self.champions[champion_name] = matches_played
+            
+            

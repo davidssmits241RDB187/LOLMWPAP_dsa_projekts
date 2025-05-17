@@ -73,7 +73,7 @@ class DataService:
             team_stats =  DataService.fetch_data(team_stats_address)
             team_rows = team_stats.find_all("tr")
             team = Team()
-            team.name = team
+            team.name = team_name
             last_row = ""
             for row in team_rows:
                 row_data = row.find_all("td")
