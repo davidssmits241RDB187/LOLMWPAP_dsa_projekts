@@ -1,5 +1,6 @@
 from team_service import Team
-from team_data_types import RowData
+from player_service import Player
+from data_types import RowData, PlayerData
 
 import dataclasses
 import os.path
@@ -20,8 +21,10 @@ class Serialization:
         if dataclasses.is_dataclass(x):
             return dataclasses.asdict(x)
         return x
-
-
+    def get_float(x):
+        x = x.replace("%", "")
+        x = float(x) / 100
+        return x
 
 class DataService:
     def __init__(self):
@@ -77,32 +80,48 @@ class DataService:
                 if len(row_data) < 2:
                     continue
                 
-                if last_row == "Win Rate : ":
-                    stat_percent = row_data[1].select("div.col-auto.pl-1.position-absolute")
-                    if stat_percent:
-                        stat_value = stat_percent[0].string
-                        stat_value = stat_value.replace("%", "")
-                        stat_value = float(stat_value) / 100
-                        #print(stat_value)
-                    setattr(team, RowData["%WinRate"], stat_value)
-                    continue
-                
-                if row_data[0].string in RowData:
-                    last_row = row_data[0].string
+                if row_data[0].text in RowData:
+                    last_row = row_data[0].text
                     if len(row_data) > 1:
                         stat_percent = row_data[1].select("div.col-auto.pl-1.position-absolute")
                         if stat_percent:
-                            stat_value = stat_percent[0].string
-                            stat_value = stat_value.replace("%", "")
-                            stat_value = float(stat_value) / 100
-                            #print(stat_value)
+                            stat_value = Serialization.get_float(stat_percent[0].text)
                         else:
-                            stat_value = row_data[1].string
+                            stat_value = row_data[1].text
                             stat_value = stat_value.replace("+", "")
-                            #print(stat_value)
-                    setattr(team, RowData[row_data[0].string], stat_value)
+                    setattr(team, RowData[row_data[0].text], stat_value)
+                    continue
+                
+                if last_row == "Win Rate : ":
+                    last_row = row_data[0].text
+                    stat_percent = row_data[1].select("div.col-auto.pl-1.position-absolute")
+                    if stat_percent:
+                        stat_value = Serialization.get_float(stat_percent[0].text)
+                    setattr(team, RowData["%WinRate"], stat_value)
+                    continue
+
+                if row_data[0].text in PlayerData:
+                    player = Player()
+                    player.team = team_name
+                    player.role = PlayerData[row_data[0].text]
+                    player.name = row_data[1].select("a")[0].text
+                    player.kda = row_data[2].text
+                    player.kp = Serialization.get_float(row_data[3].text)
+                    player.vspm = row_data[4].text
+                    player.dmg = Serialization.get_float(row_data[5].select("span")[0].text)
+                    player.gold = Serialization.get_float(row_data[6].select("span")[0].text)
+                    champions = row_data[7].find_all("span", class_="text-center")
+                    matches_played = 0
+                    for champion in champions:
+                        champion_name = champion.select("img")[0].get("alt")
+                        champion_text = champion.text
+                        champion_played_list = champion_text.split("\n")
+                        champion_played = champion_played_list[-1].strip()
+                        player.add_champion(champion_name, champion_played)
+                    player.matches_played = matches_played
+                    team.add_player(player.role, player)
             self.teams[team_name] = team
-            print(f"Fetched team {team_name}")
+            print(f"Fetched team: {team_name}")
         try:
             with open("data.json", "w") as file:
                 json.dump(self.teams, file, default=Serialization.encode_value)

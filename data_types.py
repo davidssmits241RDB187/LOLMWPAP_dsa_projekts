@@ -33,3 +33,11 @@ RowData = {
     "Wards Cleared Per Minute:": "wards_cleared_per_minute",
     "% Wards Cleared:": "_wards_cleared",
 }
+
+PlayerData = {
+    " TOP" : "top",
+    " JUNGLE" : "jungle",
+    " MID" : "mid",
+    " BOT" : "bot",
+    " SUPPORT" : "support",
+}

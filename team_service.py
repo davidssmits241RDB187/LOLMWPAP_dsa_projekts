@@ -1,4 +1,5 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from player_service import Player
 
 @dataclass
 class Team:
@@ -36,6 +37,7 @@ class Team:
     vision_wards_per_minute:        float = 0.0
     wards_cleared_per_minute:       float = 0.0
     _wards_cleared:                 float = 0.0
+    players:                        dict = field(default_factory=dict)
 
-
-
+    def add_player(self, player_role: str, player: Player):
+        self.players[player_role] = player
