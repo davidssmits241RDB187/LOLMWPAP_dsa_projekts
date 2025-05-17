@@ -133,7 +133,6 @@ class DataService:
         except Exception as e:
             print("Error saving data")
             print(e.args[0])
-
     
     def fetch_matches(self):
         page = DataService.fetch_data(leaguepedia_address)

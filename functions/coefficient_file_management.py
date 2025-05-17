@@ -1,4 +1,4 @@
-from coefficients_class import Coefficients
+from classes.coefficients_class import Coefficients
 
 
 #turn coefficients object into a list of values

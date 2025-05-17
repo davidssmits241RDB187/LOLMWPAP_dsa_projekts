@@ -1,11 +1,12 @@
 
 from services.data_service import DataService
-
+from classes.match_class import Match
 
 def main():
     # * test data
     print("Testing data service")
-    data_service = DataService()
-    data_service.fetch_matches()
-    #data_service.get_team("T1")
+    
+    match1 = Match("100 Thieves", "A One Man Army")
+    match1.evaluate_team1_vs_team2_default()
+
 main()

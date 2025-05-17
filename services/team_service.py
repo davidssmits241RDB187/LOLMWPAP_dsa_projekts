@@ -1,9 +1,8 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field,asdict
 from services.player_service import Player
 
 @dataclass
 class Team:
-    # _var = %
     name:                           str = ""
     region:                         str = ""
     season:                         str = ""
@@ -15,7 +14,7 @@ class Team:
     gold_differential_at_15_min:    int = 0
     _winrate_at_15_min:             float = 0.0
     cspm:                           float = 0.0
-    cs_differential_at_15_min:      float = 0
+    cs_differential_at_15_min:      int = 0
     tower_differential_at_15_min:   float = 0.0
     avg_tower_difference:           float = 0.0
     _first_tower:                   float = 0.0
@@ -38,7 +37,18 @@ class Team:
     vision_wards_per_minute:        float = 0.0
     wards_cleared_per_minute:       float = 0.0
     _wards_cleared:                 float = 0.0
-    players:                        dict = field(default_factory=dict)
+
+    top: Player = None
+    jungle: Player = None
+    mid: Player = None
+    adc: Player = None
+    support: Player = None
 
     def add_player(self, player_role: str, player: Player):
-        self.players[player_role] = player
+        
+        if getattr(self,player_role) is None:
+            
+            setattr(self, player_role, player)
+        
+        
+
