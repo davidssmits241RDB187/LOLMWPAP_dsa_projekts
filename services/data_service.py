@@ -6,6 +6,8 @@ import dataclasses
 import os.path
 import json
 import requests
+import unicodedata
+from datetime import datetime, timedelta
 from bs4 import BeautifulSoup
 
 headers = {"User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/117.0"}
@@ -13,7 +15,7 @@ season = "season-S15/split-Spring/tournament-ALL/"
 teams_list_address = "https://gol.gg/teams/list/"
 teams_stats_address = "https://gol.gg/teams/"
 
-lolesports_address = "https://lolesports.com/en-GB/"
+leaguepedia_address = "https://lol.fandom.com/wiki/League_of_Legends_Esports_Wiki"
 
 class Serialization:
     def encode_value(x):
@@ -73,7 +75,7 @@ class DataService:
             team_stats =  DataService.fetch_data(team_stats_address)
             team_rows = team_stats.find_all("tr")
             team = Team()
-            team.name = team
+            team.name = team_name
             last_row = ""
             for row in team_rows:
                 row_data = row.find_all("td")
@@ -124,12 +126,47 @@ class DataService:
             self.teams[team_name] = team
             print(f"Fetched team: {team_name}")
         try:
+            print("Saving data...")
+            print(self.teams)
             with open("data/data.json", "w") as file:
                 json.dump(self.teams, file, default=Serialization.encode_value)
         except Exception as e:
             print("Error saving data")
             print(e.args[0])
 
+    
+    def fetch_matches(self):
+        page = DataService.fetch_data(leaguepedia_address)
+        headers = page.find_all(class_="frontpage-header")
+        name_suffix = "logo std.png"
+        result = []
+        for header in headers:
+            if not header.string == "Matches & Results":
+                continue
+            container = header.find_next("div")
+            match_rows = container.find_all("tr")
+            for row in match_rows:
+                match_data = row.find_all("td")
+                if len(match_data) == 0:
+                    continue
+                team_data = match_data[2].find_all(class_="mw-file-element")
+                team1_data = team_data[0]["data-image-name"]
+                team1 = str(unicodedata.normalize('NFKD', team1_data).encode('ascii', 'ignore'))
+                team1 = team1[2:team1.find(name_suffix)]
+                team1 = team1[:team1.find("(")]
+                team2_data = team_data[1]["data-image-name"]
+                team2 = str(unicodedata.normalize('NFKD', team2_data).encode('ascii', 'ignore'))
+                team2 = team2[2:team2.find(name_suffix)]
+                team2 = team2[:team2.find("(")]
+                countdown_data = match_data[3].find(class_="countdowndate").string
+                countdown_data = countdown_data[:countdown_data.find(" +")]
+                countdown_date = datetime.strptime(countdown_data, "%d %b %Y %H:%M:%S")
+                if countdown_date < datetime.now() + timedelta(hours=12):
+                    result.append({
+                        "team1": team1,
+                        "team2": team2,
+                    })
+        return result
     def get_team(self, team_name):
         print("Getting team...")
         try:

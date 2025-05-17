@@ -6,6 +6,6 @@ def main():
     # * test data
     print("Testing data service")
     data_service = DataService()
-    data_service.get_team("T1")
-
+    data_service.fetch_matches()
+    #data_service.get_team("T1")
 main()
