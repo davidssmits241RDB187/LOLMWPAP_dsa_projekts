@@ -1,5 +1,5 @@
 from team_service import Team
-from team_data_types import TeamRow
+from team_data_types import RowData
 
 import dataclasses
 import os.path
@@ -8,7 +8,10 @@ import requests
 from bs4 import BeautifulSoup
 
 headers = {"User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/117.0"}
-gol_address = "https://gol.gg/teams/list/season-S15/split-Spring/tournament-ALL/"
+season = "season-S15/split-Spring/tournament-ALL/"
+teams_list_address = "https://gol.gg/teams/list/"
+teams_stats_address = "https://gol.gg/teams/"
+
 lolesports_address = "https://lolesports.com/en-GB/"
 
 class Serialization:
@@ -33,7 +36,6 @@ class DataService:
                             setattr(team_object, key, self.teams[team][key])
                         self.teams[team] = team_object
                 print(f"Loaded {len(self.teams)} teams from file.")
-                
             else:
                 self.fetch_teams()
         except Exception as e:
@@ -41,29 +43,14 @@ class DataService:
             print(e.args[0])
             self.fetch_teams()
 
-    def fetch_teams(self):
-        print("Fetching teams...")
+    def fetch_data(url):
         try:
-            response = requests.get(gol_address, headers=headers)
+            response = requests.get(url, headers=headers)
             response.raise_for_status()
-            print(response.status_code)
             if response.status_code != 200:
                 raise Exception({response.status_code})
             soup = BeautifulSoup(response.content, 'html.parser')
-            table = soup.find("table", class_="playerslist")
-            links = table.find_all('a')
-            print(f"Found {len(links)} links.")
-            for link in links:
-                link_value = link.string
-                table_row = link.parent.parent
-                team_stats = table_row.find_all('td', class_="text-center")
-                team = Team()
-                for i in range(0, len(team_stats)):
-                    stat_value = team_stats[i].string
-                    setattr(team, TeamRow[i], stat_value)
-                self.teams[link_value] = team
-            with open("data.json", "w") as file:
-                json.dump(self.teams, file, default=Serialization.encode_value)
+            return soup
         except requests.exceptions.RequestException as e:
             print("Request Exception")
                 
@@ -71,11 +58,64 @@ class DataService:
             print("HTTP Error")
             print(e.args[0])
 
+    def fetch_teams(self):
+        print("Fetching teams...")
+        page = DataService.fetch_data(teams_list_address + season)
+        table = page.find("table", class_="playerslist")
+        links = table.find_all('a')
+        print(f"Found {len(links)} links.")
+        for link in links:
+            team_stats_address = teams_stats_address + link['href'][2:] # remove ./ from link
+            team_name = link.string
+            team_stats =  DataService.fetch_data(team_stats_address)
+            team_rows = team_stats.find_all("tr")
+            team = Team()
+            last_row = ""
+            for row in team_rows:
+                row_data = row.find_all("td")
+                
+                if len(row_data) < 2:
+                    continue
+                
+                if last_row == "Win Rate : ":
+                    stat_percent = row_data[1].select("div.col-auto.pl-1.position-absolute")
+                    if stat_percent:
+                        stat_value = stat_percent[0].string
+                        stat_value = stat_value.replace("%", "")
+                        stat_value = float(stat_value) / 100
+                        #print(stat_value)
+                    setattr(team, RowData["%WinRate"], stat_value)
+                    continue
+                
+                if row_data[0].string in RowData:
+                    last_row = row_data[0].string
+                    if len(row_data) > 1:
+                        stat_percent = row_data[1].select("div.col-auto.pl-1.position-absolute")
+                        if stat_percent:
+                            stat_value = stat_percent[0].string
+                            stat_value = stat_value.replace("%", "")
+                            stat_value = float(stat_value) / 100
+                            #print(stat_value)
+                        else:
+                            stat_value = row_data[1].string
+                            stat_value = stat_value.replace("+", "")
+                            #print(stat_value)
+                    setattr(team, RowData[row_data[0].string], stat_value)
+            self.teams[team_name] = team
+            print(f"Fetched team {team_name}")
+        try:
+            with open("data.json", "w") as file:
+                json.dump(self.teams, file, default=Serialization.encode_value)
+        except Exception as e:
+            print("Error saving data")
+            print(e.args[0])
+
     def get_team(self, team_name):
         print("Getting team...")
         try:
             if team_name in self.teams:
-                print(self.teams[team_name])
+                print(f"Found team {team_name}")
+                return self.teams[team_name]
             else:
                 print(f"Team {team_name} not found.")
         except Exception as e:
