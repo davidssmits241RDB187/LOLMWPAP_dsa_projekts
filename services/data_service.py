@@ -1,5 +1,6 @@
 from services.team_service import Team
 from services.player_service import Player
+from services.coefficient_service import Coefficients
 from data.data_types import RowData, PlayerData
 
 import dataclasses
@@ -10,10 +11,12 @@ import unicodedata
 from datetime import datetime, timedelta
 from bs4 import BeautifulSoup
 
-headers = {"User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/117.0"}
+headers = {"Cookie": "PHPSESSID=lefonepn6793q6ij1ve09e9idh", "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/117.0"}
 season = "season-S15/split-Spring/tournament-ALL/"
 teams_list_address = "https://gol.gg/teams/list/"
 teams_stats_address = "https://gol.gg/teams/"
+tournament_list_address = "https://gol.gg/tournament/ajax.trlist.php"
+tournament_address = "https://gol.gg/tournament/tournament-matchlist/"
 
 leaguepedia_address = "https://lol.fandom.com/wiki/League_of_Legends_Esports_Wiki"
 
@@ -31,9 +34,11 @@ class Serialization:
 class DataService:
     def __init__(self):
         self.teams = {}
+        self.coefficients = Coefficients()
+
         try:
-            if os.path.isfile("data/data.json"):
-                with open("data/data.json", "r") as file:
+            if os.path.isfile("data/team_data.json"):
+                with open("data/team_data.json", "r") as file:
                     self.teams = json.load(file)
                     for team in self.teams:
                         team_object = Team()
@@ -44,9 +49,23 @@ class DataService:
             else:
                 self.fetch_teams()
         except Exception as e:
-            print("Error loading data")
+            print("Error loading teams")
             print(e.args[0])
             self.fetch_teams()
+        
+        # try:
+        #     if os.path.isfile("data/coefficient_data.json"):
+        #         with open("data/coefficient_data.json", "r") as file:
+        #             file_data = json.load(file)
+        #             for key in file_data:
+        #                 self.coefficients[key] = file_data[key]
+        #         print(f"Loaded {len(self.coefficients)} coefficients from file.")
+        #     else:
+        #         self.fetch_coefficients()
+        # except Exception as e:
+        #     print("Error loading coefficients")
+        #     print(e.args[0])
+        #     self.fetch_coefficients()
 
     def fetch_data(url):
         try:
@@ -62,11 +81,25 @@ class DataService:
         except requests.exceptions.HTTPError as e:
             print("HTTP Error")
             print(e.args[0])
+        
+    def fetch_data_api(url, request):
+        try:
+            response = requests.post(url, data=request, headers=headers)
+            response.raise_for_status()
+            if response.status_code != 200:
+                raise Exception({response.status_code})
+            return response
+        except requests.exceptions.RequestException as e:
+            print("Request Exception")
+                
+        except requests.exceptions.HTTPError as e:
+            print("HTTP Error")
+            print(e.args[0])
 
     def fetch_teams(self):
         print("Fetching teams...")
-        page = DataService.fetch_data(teams_list_address + season)
-        table = page.find("table", class_="playerslist")
+        data = DataService.fetch_data(teams_list_address + season)
+        table = data.find("table", class_="table_list")
         links = table.find_all('a')
         print(f"Found {len(links)} links.")
         for link in links:
@@ -92,6 +125,9 @@ class DataService:
                         else:
                             stat_value = row_data[1].text
                             stat_value = stat_value.replace("+", "")
+                            offset = stat_value.find(" (")
+                            if offset != -1:
+                                stat_value = stat_value[:offset]
                     setattr(team, RowData[row_data[0].text], stat_value)
                     continue
                 
@@ -127,8 +163,7 @@ class DataService:
             print(f"Fetched team: {team_name}")
         try:
             print("Saving data...")
-            print(self.teams)
-            with open("data/data.json", "w") as file:
+            with open("data/team_data.json", "w") as file:
                 json.dump(self.teams, file, default=Serialization.encode_value)
         except Exception as e:
             print("Error saving data")
@@ -152,11 +187,16 @@ class DataService:
                 team1_data = team_data[0]["data-image-name"]
                 team1 = str(unicodedata.normalize('NFKD', team1_data).encode('ascii', 'ignore'))
                 team1 = team1[2:team1.find(name_suffix)]
-                team1 = team1[:team1.find("(")]
+                offset1 = team1.find("(")
+                if offset1 != -1:
+                    team1 = team1[:offset1]
+                
                 team2_data = team_data[1]["data-image-name"]
                 team2 = str(unicodedata.normalize('NFKD', team2_data).encode('ascii', 'ignore'))
                 team2 = team2[2:team2.find(name_suffix)]
-                team2 = team2[:team2.find("(")]
+                offset2 = team2.find("(")
+                if offset2 != -1:
+                    team2 = team2[:offset2]
                 countdown_data = match_data[3].find(class_="countdowndate").string
                 countdown_data = countdown_data[:countdown_data.find(" +")]
                 countdown_date = datetime.strptime(countdown_data, "%d %b %Y %H:%M:%S")
@@ -166,6 +206,44 @@ class DataService:
                         "team2": team2,
                     })
         return result
+
+    def fetch_coefficients(self):
+        print("Calculating coefficients...")
+        request = {"season": "S15"}
+        page = DataService.fetch_data_api(tournament_list_address, request)
+        page_data = page.json()
+        print(f"Found {len(page_data)} tournaments.")
+        for tournament in page_data:
+            tournament_name = tournament["trname"]
+            tournament_stats_address = tournament_address + tournament_name + "/"
+            tournament_page = DataService.fetch_data(tournament_stats_address)
+            tournament_data = tournament_page.find_all(class_="fond-main-cadre")
+            tournament_table = tournament_data[2].find("table", class_="table_list")
+            tournament_rows = tournament_table.find_all("tr")
+            for row in tournament_rows:
+                row_victory = row.find("td", class_="text_victory")
+                row_defeat = row.find("td", class_="text_defeat")
+                if row_victory is None or row_defeat is None:
+                    continue
+                try:
+                    winning_team = self.teams[row_victory.string] 
+                    losing_team = self.teams[row_defeat.string]
+                    self.coefficients.evaluate_coefficients(winning_team, losing_team)
+                except Exception as e:
+                    print("Team not found, skipping...")
+            print(f"Evaluated {tournament_name}")
+        try:
+            print("Saving data...")
+            print(self.coefficients)
+            with open("data/coefficient_data.json", "w") as file:
+                json.dump(self.coefficients, file, default=Serialization.encode_value)
+        except Exception as e:
+            print("Error saving data")
+            print(e.args[0])
+
+            #tournament_stats_adress = tournaments_address + link['href'][2:]
+            #print(tournament_stats_adress)
+
     def get_team(self, team_name):
         print("Getting team...")
         try:

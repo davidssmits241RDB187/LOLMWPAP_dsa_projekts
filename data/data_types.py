@@ -41,3 +41,41 @@ PlayerData = {
     " BOT" : "bot",
     " SUPPORT" : "support",
 }
+
+CoefficientValues = [
+    "gold_per_minute_or_gold_lead",
+    "kills_per_game",
+    "avg_tower_difference",
+    "dragons_per_game",
+    "nashor_per_game"
+]
+
+CoefficientCoeffs = [
+    "gold_lead",
+    "kills",
+    "towers",
+    "dragons",
+    "barons"
+]
+
+CoefficientRoles = [
+    "top",
+    "jungle",
+    "mid",
+    "bot",
+    "support"
+]
+    
+CoefficientPlayerAttributes = [
+    "kda", 
+    #"cspm",
+    "dmg",
+    "vspm"
+]
+    
+CoefficientPlayerCoeffs = [
+    "kda",
+    #"csm",
+    "dpm",
+    "wpm"
+]
