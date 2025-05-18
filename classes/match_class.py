@@ -12,7 +12,8 @@ class Match:
         self.team1_evaluation = 0
         self.team2_evaluation = 0
         self.history = [0,0]
-        self.coefficients = asdict(read_matches_from_file())
+        self.coefficients = read_matches_from_file()
+        
     
     def dict_to_player(self,player_dict):
         return Player(**player_dict)
@@ -22,7 +23,8 @@ class Match:
         
         team1_dict = vars(self.team1)
         team2_dict = vars(self.team2)
-
+        print(asdict(self.coefficients))
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         for key in team1_dict:
             
 
@@ -48,23 +50,25 @@ class Match:
                 value_for_team1 = Player(**value_for_team1)
                 value_for_team2 = Player(**value_for_team2)
         except Exception as e:
-            print(f"An unexpected error occurred: {e}")
+            pass
             
             
        
         if isinstance(value_for_team1, (float, int)) and isinstance(value_for_team2, (float, int)):
-            coeff = self.coefficients.get(key_for_coeff, None)
+            coeff = getattr(self.coefficients, key_for_coeff, None)
+
             if coeff and isinstance(coeff, list) and len(coeff) == 2 and coeff[1] != 0:
                 multiplier = coeff[0] / coeff[1]
+                print(f"Using multiplier {multiplier} for key {key_for_coeff}")
             else:
                 multiplier = 1.0
-
+            
             if value_for_team1 > value_for_team2:
                 self.team1_evaluation += multiplier
-                print(f"increased team1 by {multiplier} for {key_for_coeff}: {value_for_team1} > {value_for_team2}")
+                
             elif value_for_team1 < value_for_team2:
                 self.team2_evaluation += multiplier
-                print(f"increased team2 by {multiplier} for {key_for_coeff}: {value_for_team1} < {value_for_team2}")
+                
             return
 
         
@@ -77,29 +81,30 @@ class Match:
                 val1 = player1_values[subkey]
                 val2 = player2_values[subkey]
                 try:
-                    if isinstance(value_for_team1, str) and isinstance(value_for_team2, str):
-                        value_for_team1 = float(value_for_team1)
-                        value_for_team2 = float(value_for_team2)
+                    if isinstance(val1, str) and isinstance(val2, str):
+                        val1 = float(val1)
+                        val2 = float(val2)
                
                 except Exception as e:
-                    print(f"An unexpected error occurred: {e}")
+                    pass
                     
                 if isinstance(val1, (float, int)) and isinstance(val2, (float, int)):
                     coeff_key = f"{value_for_team1.role}_{subkey}"
-                    coeff = self.coefficients.get(coeff_key, None)
+                    coeff = getattr(self.coefficients, coeff_key, None)
+
                     if coeff and isinstance(coeff, list) and len(coeff) == 2 and coeff[1] != 0:
                         multiplier = coeff[0] / coeff[1]
+                        print(f"Using multiplier {multiplier} for key {coeff_key}")
                     else:
                         multiplier = 1.0
-
+                    
                     if val1 > val2:
                         self.team1_evaluation += multiplier
-                        print(f"increased team1 by {multiplier} for {coeff_key}: {val1} > {val2}")
+                       
                     elif val1 < val2:
                         self.team2_evaluation += multiplier
-                        print(f"increased team2 by {multiplier} for {coeff_key}: {val1} < {val2}")
-                else:
-                    print(f"Skipping player subkey {subkey}: not float/int ({type(val1)})")
+                        
+                
             return
 
        

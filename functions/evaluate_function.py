@@ -20,21 +20,21 @@ def evaluate_coefficients(winning_team_name: str,losing_team_name:str):
         '''
         
         default_team_values_list = ["gold_per_minute_or_gold_lead", "kills_per_game","avg_tower_difference","dragons_per_game","nashor_per_game"]
-        team_coeffs = ["gold_lead","kills","towers","dragons","barons"]
+
         for x in range(5):
             try:
                 win_value = getattr(winning_team,default_team_values_list[x])
                 los_value = getattr(losing_team,default_team_values_list[x])
                 if win_value > los_value:
-                    getattr(read_coefficients,team_coeffs[x])[0]+=1
+                    getattr(read_coefficients,default_team_values_list[x])[0]+=1
                 elif win_value < los_value:
-                    getattr(read_coefficients,team_coeffs[x])[1]+=1
+                    getattr(read_coefficients,default_team_values_list[x])[1]+=1
             except Exception as e:
                 pass
         
         roles = ["top", "jungle", "mid", "bot", "support"]
-        player_attributes = ["kda", "cspm", "dmg", "vspm"]
-        players_coeffs = ["kda", "csm", "dpm", "wpm"]
+        player_attributes = ["kda", "csm", "dmg", "vspm"]
+       
 
         for i in range(5):
             try:
@@ -43,14 +43,14 @@ def evaluate_coefficients(winning_team_name: str,losing_team_name:str):
                 for attribute in player_attributes:
                     win_val = getattr(winning_player, attribute)
                     lose_val = getattr(losing_player, attribute)
-                    coeff = f"{roles[i]}_{players_coeffs[player_attributes.index(attribute)]}"
+                    coeff = f"{roles[i]}_{player_attributes[player_attributes.index(attribute)]}"
                     if win_val > lose_val:
                         getattr(read_coefficients, coeff)[0] += 1
                     elif win_val < lose_val:
                         getattr(read_coefficients, coeff)[1] += 1
             except Exception as e:
                 pass
-            
+        print(read_coefficients)
         write_match_to_file(read_coefficients)
         
 
