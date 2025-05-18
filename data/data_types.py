@@ -50,14 +50,6 @@ CoefficientValues = [
     "nashor_per_game"
 ]
 
-CoefficientCoeffs = [
-    "gold_lead",
-    "kills",
-    "towers",
-    "dragons",
-    "barons"
-]
-
 CoefficientRoles = [
     "top",
     "jungle",
@@ -71,11 +63,4 @@ CoefficientPlayerAttributes = [
     #"cspm",
     "dmg",
     "vspm"
-]
-    
-CoefficientPlayerCoeffs = [
-    "kda",
-    #"csm",
-    "dpm",
-    "wpm"
 ]

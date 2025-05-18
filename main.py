@@ -18,6 +18,6 @@ def main():
     #evaluate_coefficients( "DMG Esports","T1")
     #evaluate_coefficients("G2 Esports", "T1")
     
-    match2 = Match("Los Ratones", "NORD Esports")
+    #match2 = Match("Los Ratones", "NORD Esports")
     #match2.evaluate_team1_vs_team2_default()
 main()
