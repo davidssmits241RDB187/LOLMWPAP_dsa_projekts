@@ -41,7 +41,7 @@ class Team:
     top: Player = None
     jungle: Player = None
     mid: Player = None
-    adc: Player = None
+    bot: Player = None
     support: Player = None
 
     def add_player(self, player_role: str, player: Player):

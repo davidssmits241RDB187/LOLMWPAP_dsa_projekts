@@ -1,5 +1,4 @@
 from dataclasses import asdict
-from services.team_service import Team
 from functions.coefficient_file_management import read_matches_from_file
 from services.player_service import Player
 from services.data_service import DataService
