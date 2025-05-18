@@ -53,19 +53,19 @@ class DataService:
             print(e.args[0])
             self.fetch_teams()
         
-        # try:
-        #     if os.path.isfile("data/coefficient_data.json"):
-        #         with open("data/coefficient_data.json", "r") as file:
-        #             file_data = json.load(file)
-        #             for key in file_data:
-        #                 self.coefficients[key] = file_data[key]
-        #         print(f"Loaded {len(self.coefficients)} coefficients from file.")
-        #     else:
-        #         self.fetch_coefficients()
-        # except Exception as e:
-        #     print("Error loading coefficients")
-        #     print(e.args[0])
-        #     self.fetch_coefficients()
+        try:
+            if os.path.isfile("data/coefficient_data.json"):
+                with open("data/coefficient_data.json", "r") as file:
+                    file_data = json.load(file)
+                    for key in file_data:
+                        setattr(self.coefficients, key, file_data[key])
+                print(f"Loaded coefficients from file.")
+            else:
+                self.fetch_coefficients()
+        except Exception as e:
+            print("Error loading coefficients")
+            print(e.args[0])
+            self.fetch_coefficients()
 
     def fetch_data(url):
         try:
@@ -255,3 +255,6 @@ class DataService:
         except Exception as e:
             print("Error getting team")
             print(e.args[0])
+
+    def get_coefficients(self):
+        return self.coefficients

@@ -1,28 +1,27 @@
-from dataclasses import asdict
-from functions.coefficient_file_management import read_matches_from_file
-from services.player_service import Player
 from services.data_service import DataService
+from services.player_service import Player
+
+from dataclasses import asdict
+
 class Match:
     def __init__(self, team1_name, team2_name):
-        DS = DataService()
+        self.DS = DataService()
         self.team1_name = team1_name
         self.team2_name = team2_name
-        self.team1 = DS.get_team(team1_name)
-        self.team2 = DS.get_team(team2_name)
+        self.team1 = self.DS.get_team(team1_name)
+        self.team2 = self.DS.get_team(team2_name)
         self.team1_evaluation = 0
         self.team2_evaluation = 0
         self.history = [0,0]
-        self.coefficients = read_matches_from_file()
-        
-    
+
     def dict_to_player(self,player_dict):
         return Player(**player_dict)
-
-    def evaluate_team1_vs_team2_default(self):
+    
+    def evaluate_team1_vs_team2(self):
         
         team1_dict = vars(self.team1)
         team2_dict = vars(self.team2)
-        print(asdict(self.coefficients))
+        print(asdict(self.DS.coefficients))
         for key in team1_dict:
             
             print(f"{self.team1_evaluation} ///// {self.team2_evaluation}")
@@ -32,9 +31,8 @@ class Match:
             self.evaluate_values(key, val1, val2)  
             
         print(f"{self.team1_name} score: {self.team1_evaluation} ========= {self.team2_name} score: {self.team2_evaluation}")
-
+    
     def evaluate_values(self, key_for_coeff, value_for_team1, value_for_team2):
-
         try:
             if isinstance(value_for_team1, str) and isinstance(value_for_team2, str):
                 value_for_team1 = float(value_for_team1)
@@ -45,10 +43,8 @@ class Match:
         except Exception as e:
             pass
             
-            
-       
         if isinstance(value_for_team1, (float, int)) and isinstance(value_for_team2, (float, int)):
-            coeff = getattr(self.coefficients, key_for_coeff, None)
+            coeff = getattr(self.DS.coefficients, key_for_coeff, None)
 
             if coeff and isinstance(coeff, list) and len(coeff) == 2 and coeff[1] != 0:
                 multiplier = coeff[0] / coeff[1]
@@ -84,7 +80,7 @@ class Match:
                     
                 if isinstance(val1, (float, int)) and isinstance(val2, (float, int)):
                     coeff_key = f"{value_for_team1.role}_{subkey}"
-                    coeff = getattr(self.coefficients, coeff_key, None)
+                    coeff = getattr(self.DS.coefficients, coeff_key, None)
 
                     if coeff and isinstance(coeff, list) and len(coeff) == 2 and coeff[1] != 0:
                         multiplier = coeff[0] / coeff[1]
@@ -99,7 +95,3 @@ class Match:
                     elif val1 < val2:
                         self.team2_evaluation += multiplier
                         
-        
-    
-
-       
