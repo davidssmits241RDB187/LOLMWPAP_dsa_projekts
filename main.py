@@ -7,11 +7,13 @@ def main():
     # * test data
     print("Testing data service")
     
-    match1 = Match("T1", "Los Ratones")
+    match1 = Match("Los Ratones", "NORD Esports")
     match1.evaluate_team1_vs_team2_default()
     
 
-    evaluate_coefficients("T1", "Los ratones")
+    evaluate_coefficients( "DMG Esports","T1")
+    evaluate_coefficients("G2 Esports", "T1")
     
-    match1.evaluate_team1_vs_team2_default()
+    match2 = Match("Los Ratones", "NORD Esports")
+    match2.evaluate_team1_vs_team2_default()
 main()

@@ -24,10 +24,9 @@ class Match:
         team1_dict = vars(self.team1)
         team2_dict = vars(self.team2)
         print(asdict(self.coefficients))
-        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         for key in team1_dict:
             
-
+            print(f"{self.team1_evaluation} ///// {self.team2_evaluation}")
             val1 = team1_dict[key]
             val2 = team2_dict[key]
 
@@ -59,10 +58,11 @@ class Match:
 
             if coeff and isinstance(coeff, list) and len(coeff) == 2 and coeff[1] != 0:
                 multiplier = coeff[0] / coeff[1]
-                print(f"Using multiplier {multiplier} for key {key_for_coeff}")
+               
             else:
                 multiplier = 1.0
-            
+            print(multiplier)
+            print("\n"+key_for_coeff)
             if value_for_team1 > value_for_team2:
                 self.team1_evaluation += multiplier
                 
@@ -73,7 +73,7 @@ class Match:
 
         
         if isinstance(value_for_team1, Player) and isinstance(value_for_team2, Player):
-            print(f"Evaluating Player objects for role: {value_for_team1.role}")
+            
             player1_values = asdict(value_for_team1)
             player2_values = asdict(value_for_team2)
 
@@ -94,17 +94,18 @@ class Match:
 
                     if coeff and isinstance(coeff, list) and len(coeff) == 2 and coeff[1] != 0:
                         multiplier = coeff[0] / coeff[1]
-                        print(f"Using multiplier {multiplier} for key {coeff_key}")
+                        
                     else:
                         multiplier = 1.0
-                    
+                    print(multiplier)
+                    print("\n"+coeff_key)
                     if val1 > val2:
                         self.team1_evaluation += multiplier
                        
                     elif val1 < val2:
                         self.team2_evaluation += multiplier
                         
-                
-            return
+        
+    
 
        

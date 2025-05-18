@@ -25,6 +25,7 @@ def evaluate_coefficients(winning_team_name: str,losing_team_name:str):
             try:
                 win_value = getattr(winning_team,default_team_values_list[x])
                 los_value = getattr(losing_team,default_team_values_list[x])
+                
                 if win_value > los_value:
                     getattr(read_coefficients,default_team_values_list[x])[0]+=1
                 elif win_value < los_value:
@@ -33,24 +34,29 @@ def evaluate_coefficients(winning_team_name: str,losing_team_name:str):
                 pass
         
         roles = ["top", "jungle", "mid", "bot", "support"]
-        player_attributes = ["kda", "csm", "dmg", "vspm"]
+        player_attributes = ["csm", "dmg", "vspm","kda"]
        
 
         for i in range(5):
-            try:
-                winning_player = Player(**getattr(winning_team,roles[i]))
-                losing_player = Player(**getattr(losing_team,roles[i]))
-                for attribute in player_attributes:
+        
+            winning_player = Player(**getattr(winning_team,roles[i]))
+            losing_player = Player(**getattr(losing_team,roles[i]))
+            
+            for attribute in player_attributes:
+                try:
                     win_val = getattr(winning_player, attribute)
                     lose_val = getattr(losing_player, attribute)
+                
                     coeff = f"{roles[i]}_{player_attributes[player_attributes.index(attribute)]}"
                     if win_val > lose_val:
                         getattr(read_coefficients, coeff)[0] += 1
                     elif win_val < lose_val:
                         getattr(read_coefficients, coeff)[1] += 1
-            except Exception as e:
-                pass
-        print(read_coefficients)
-        write_match_to_file(read_coefficients)
+                except Exception as e:
+                    pass
+                
         
+    
+        write_match_to_file(read_coefficients)
+    
 
