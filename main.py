@@ -1,5 +1,4 @@
 from controllers.match_controller import Match
-from classes.coefficients_class import Coefficients
 
 def main():
     # * test data
