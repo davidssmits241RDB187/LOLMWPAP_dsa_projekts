@@ -24,7 +24,7 @@ class Team:
     deaths_per_game:                float = 0.0
     avg_kd:                         float = 0.0
     avg_ak:                         float = 0.0
-    plates_per_game:                str = ""
+    plates_per_game:                float = 0.0
     dragons_per_game:               float = 0.0
     dragons_at_15_min:              float = 0.0
     void_grubs_per_game:            float = 0.0

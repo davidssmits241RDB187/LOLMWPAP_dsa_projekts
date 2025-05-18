@@ -8,6 +8,7 @@ import os.path
 import json
 import requests
 import unicodedata
+import ast
 from datetime import datetime, timedelta
 from bs4 import BeautifulSoup
 
@@ -30,6 +31,12 @@ class Serialization:
         x = x.replace("%", "")
         x = float(x) / 100
         return x
+
+    def parse_str(s):
+        try:
+            return ast.literal_eval(str(s))
+        except:
+            return s
 
 class DataService:
     def __init__(self):
@@ -128,6 +135,7 @@ class DataService:
                             offset = stat_value.find(" (")
                             if offset != -1:
                                 stat_value = stat_value[:offset]
+                            stat_value = Serialization.parse_str(stat_value)
                     setattr(team, RowData[row_data[0].text], stat_value)
                     continue
                 
@@ -144,9 +152,9 @@ class DataService:
                     player.team = team_name
                     player.role = PlayerData[row_data[0].text]
                     player.name = row_data[1].select("a")[0].text
-                    player.kda = row_data[2].text
+                    player.kda = Serialization.parse_str(row_data[2].text)
                     player.kp = Serialization.get_float(row_data[3].text)
-                    player.vspm = row_data[4].text
+                    player.vspm = Serialization.parse_str(row_data[4].text)
                     player.dmg = Serialization.get_float(row_data[5].select("span")[0].text)
                     player.gold = Serialization.get_float(row_data[6].select("span")[0].text)
                     champions = row_data[7].find_all("span", class_="text-center")
@@ -157,6 +165,7 @@ class DataService:
                         champion_played_list = champion_text.split("\n")
                         champion_played = champion_played_list[-1].strip()
                         player.add_champion(champion_name, champion_played)
+                        matches_played += int(champion_played)
                     player.matches_played = matches_played
                     team.add_player(player.role, player)
             self.teams[team_name] = team
@@ -169,7 +178,7 @@ class DataService:
             print("Error saving data")
             print(e.args[0])
     
-    def fetch_matches(self):
+    def fetch_matches():
         page = DataService.fetch_data(leaguepedia_address)
         headers = page.find_all(class_="frontpage-header")
         name_suffix = "logo std.png"
@@ -190,7 +199,6 @@ class DataService:
                 offset1 = team1.find("(")
                 if offset1 != -1:
                     team1 = team1[:offset1]
-                
                 team2_data = team_data[1]["data-image-name"]
                 team2 = str(unicodedata.normalize('NFKD', team2_data).encode('ascii', 'ignore'))
                 team2 = team2[2:team2.find(name_suffix)]
@@ -240,9 +248,6 @@ class DataService:
         except Exception as e:
             print("Error saving data")
             print(e.args[0])
-
-            #tournament_stats_adress = tournaments_address + link['href'][2:]
-            #print(tournament_stats_adress)
 
     def get_team(self, team_name):
         print("Getting team...")
