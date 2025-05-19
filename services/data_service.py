@@ -235,6 +235,7 @@ class DataService:
                 if not isinstance(match_data3, Tag): continue
 
                 team_data = match_data2.find_all(class_="mw-file-element")
+                if not team_data: continue
                 team_data0 = team_data[0]
                 team_data1 = team_data[1]
                 if not isinstance(team_data0, Tag): continue
