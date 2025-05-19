@@ -184,14 +184,18 @@ class DataService:
                 if len(match_data) == 0:
                     continue
                 team_data = match_data[2].find_all(class_="mw-file-element")
-                team1_data = team_data[0]["data-image-name"]
+                try:
+                    team1_data = team_data[0]["data-image-name"]
+                    team2_data = team_data[1]["data-image-name"]
+                except Exception as e:
+                    print("Match TBD")
+                    continue
                 team1 = str(unicodedata.normalize('NFKD', team1_data).encode('ascii', 'ignore'))
                 team1 = team1[2:team1.find(name_suffix)]
                 offset1 = team1.find("(")
                 if offset1 != -1:
                     team1 = team1[:offset1]
                 
-                team2_data = team_data[1]["data-image-name"]
                 team2 = str(unicodedata.normalize('NFKD', team2_data).encode('ascii', 'ignore'))
                 team2 = team2[2:team2.find(name_suffix)]
                 offset2 = team2.find("(")

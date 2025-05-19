@@ -3,12 +3,12 @@
 from functions.coefficient_file_management import write_match_to_file, read_matches_from_file
 from services.data_service import DataService
 from services.player_service import Player
+from services.team_service import Team
 
-def evaluate_coefficients(winning_team_name: str,losing_team_name:str):
+def evaluate_coefficients(winning_team: Team,losing_team:Team):
         read_coefficients = read_matches_from_file()
-        ds = DataService()
-        winning_team = ds.get_team(winning_team_name)
-        losing_team= ds.get_team(losing_team_name)
+       
+        
         
         #kda csm dpm wpm
         #gold_lead kills towers dragons barons
