@@ -1,4 +1,4 @@
-from services.team_service import Team
+from classes.team import Team
 from data.data_types import CoefficientValues, CoefficientRoles, CoefficientPlayerAttributes
 
 from dataclasses import dataclass, field

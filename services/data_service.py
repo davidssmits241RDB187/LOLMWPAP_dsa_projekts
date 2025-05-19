@@ -1,6 +1,6 @@
-from services.team_service import Team
-from services.player_service import Player
-from services.coefficient_service import Coefficients
+from classes.coefficients import Coefficients
+from classes.player import Player
+from classes.team import Team
 from data.data_types import RowData, PlayerData, MatchData, CoefficientRoles, CoefficientPlayerAttributes
 
 import dataclasses

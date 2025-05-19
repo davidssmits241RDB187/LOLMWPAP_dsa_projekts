@@ -1,9 +1,10 @@
 from services.data_service import DataService
-from services.player_service import Player
-from services.team_service import Team
+from classes.player import Player
+from classes.team import Team
+
 from dataclasses import asdict
 
-class Match:
+class MatchController:
     def __init__(self, team1:Team, team2:Team, DS: DataService):
         self.DS = DS
         self.team1 = team1

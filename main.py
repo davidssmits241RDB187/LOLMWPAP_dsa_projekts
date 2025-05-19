@@ -1,28 +1,11 @@
-from controllers.match_controller import Match
+from controllers.match_controller import MatchController
 from services.data_service import DataService
-from functions.evaluate_function import evaluate_coefficients
 
 import os
 
 def main():
-    # * test data
-    #data_service.fetch_coefficients()
-    #data_service.fetch_teams()
-    
     DS = DataService()
     
-    # matches = DS.fetch_matches()
-    
-    # for match in matches:
-        
-    #     team1 = DS.get_team(match["team1"])
-    #     team2 = DS.get_team(match["team2"])
-        
-    #     if team1 is None or team2 is None:
-    #         continue
-
-    #     match = Match(team1,team2,DS)
-    #     match.evaluate_team1_vs_team2()
     while True:
         os.system("cls||clear")
         print("""
@@ -50,7 +33,7 @@ def main():
                         print("Teams not found")
                         continue
                     
-                    match = Match(team1, team2, DS)
+                    match = MatchController(team1, team2, DS)
                     match.evaluate_team1_vs_team2()
                 except Exception:
                     print("Invalid input")
@@ -67,7 +50,7 @@ def main():
                         print("Teams not found")
                         continue
 
-                    match = Match(team1, team2, DS)
+                    match = MatchController(team1, team2, DS)
                     match.evaluate_team1_vs_team2()
                 input("Input key to continue...")
 

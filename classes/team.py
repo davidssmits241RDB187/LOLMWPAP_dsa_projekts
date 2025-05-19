@@ -1,5 +1,6 @@
-from dataclasses import dataclass, field,asdict
-from services.player_service import Player
+from classes.player import Player
+
+from dataclasses import dataclass
 
 @dataclass
 class Team:
