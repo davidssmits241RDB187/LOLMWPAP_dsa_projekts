@@ -39,8 +39,8 @@ class Coefficients:
 
     def evaluate_coefficients(self, winning_team: Team, losing_team: Team):
         for i in range(5):
-            win_value = float(getattr(winning_team, CoefficientValues[i]))
-            loss_value = float(getattr(losing_team, CoefficientValues[i]))
+            win_value = getattr(winning_team, CoefficientValues[i])
+            loss_value = getattr(losing_team, CoefficientValues[i])
             coeff_value = getattr(self, CoefficientValues[i])
             if win_value > loss_value:
                 coeff_value[0] += 1.0
@@ -51,9 +51,9 @@ class Coefficients:
         for i in range(5):
             winning_player = getattr(winning_team, CoefficientRoles[i])
             losing_player = getattr(losing_team, CoefficientRoles[i])
-            for j in range(3): #without csm
-                win_value = float(winning_player[CoefficientPlayerAttributes[j]])
-                loss_value = float(losing_player[CoefficientPlayerAttributes[j]])
+            for j in range(4):
+                win_value = getattr(winning_player, CoefficientPlayerAttributes[j])
+                loss_value = getattr(losing_player, CoefficientPlayerAttributes[j])
                 coeff = CoefficientRoles[i] + "_" + CoefficientPlayerAttributes[j]
                 coeff_value = getattr(self, coeff)
                 if win_value > loss_value:

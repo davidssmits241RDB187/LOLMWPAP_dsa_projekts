@@ -37,12 +37,12 @@ class Team:
     vision_wards_per_minute:        float = 0.0
     wards_cleared_per_minute:       float = 0.0
     _wards_cleared:                 float = 0.0
-
-    top: Player = None
-    jungle: Player = None
-    mid: Player = None
-    bot: Player = None
-    support: Player = None
+    #players
+    top:        Player | None = None
+    jungle:     Player | None = None
+    mid:        Player | None = None
+    bot:        Player | None = None
+    support:    Player | None = None
 
     def add_player(self, player_role: str, player: Player):
         

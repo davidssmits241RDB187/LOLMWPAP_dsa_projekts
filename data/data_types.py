@@ -60,7 +60,14 @@ CoefficientRoles = [
     
 CoefficientPlayerAttributes = [
     "kda", 
-    #"cspm",
+    "csm",
     "dmg",
     "vspm"
+]
+
+MatchData = [
+    "kills_per_game",
+    "avg_tower_difference",
+    "dragons_per_game",
+    "nashor_per_game"
 ]
