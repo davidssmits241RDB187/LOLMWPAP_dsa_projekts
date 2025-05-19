@@ -20,5 +20,13 @@ def main():
             continue
         match = Match(team1,team2,DS)
         match.evaluate_team1_vs_team2()
-        
+    while True:
+        team1_name = input("Enter the first teams name: ")
+        team2_name = input("Enter the second teams name: ")
+        try:
+            
+            match = Match(DS.get_team(team1_name),DS.get_team(team2_name),DS)
+            match.evaluate_team1_vs_team2()
+        except Exception:
+            print("Invalid input")
 main()
