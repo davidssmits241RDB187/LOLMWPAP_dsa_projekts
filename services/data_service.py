@@ -209,7 +209,7 @@ class DataService:
     @staticmethod
     def fetch_matches():
         page = DataService.fetch_data(leaguepedia_address)
-        if page is None: return
+        if page is None: return []
 
         headers = page.find_all(class_="frontpage-header")
         name_suffix = "logo std.png"
@@ -240,13 +240,19 @@ class DataService:
                 if not isinstance(team_data0, Tag): continue
                 if not isinstance(team_data1, Tag): continue
 
-                team1_data = team_data0["data-image-name"]
+
+                try:
+                    team1_data = team_data0["data-image-name"]
+                    team2_data = team_data1["data-image-name"]
+                except Exception as e:
+                    print("Match TBD")
+                    continue
+
                 team1 = str(unicodedata.normalize('NFKD', str(team1_data)).encode('ascii', 'ignore'))
                 team1 = team1[2:team1.find(name_suffix)]
                 offset1 = team1.find("(")
                 if offset1 != -1:
                     team1 = team1[:offset1]
-                team2_data = team_data1["data-image-name"]
                 team2 = str(unicodedata.normalize('NFKD', str(team2_data)).encode('ascii', 'ignore'))
                 team2 = team2[2:team2.find(name_suffix)]
                 offset2 = team2.find("(")
@@ -425,9 +431,11 @@ class DataService:
                 return self.teams[team_name]
             else:
                 print(f"Team {team_name} not found.")
+                return
         except Exception as e:
             print("Error getting team")
             print(e.args[0])
+            return
 
     def get_coefficients(self):
         return self.coefficients

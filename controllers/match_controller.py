@@ -1,15 +1,13 @@
 from services.data_service import DataService
 from services.player_service import Player
-
+from services.team_service import Team
 from dataclasses import asdict
 
 class Match:
-    def __init__(self, team1_name, team2_name):
-        self.DS = DataService()
-        self.team1_name = team1_name
-        self.team2_name = team2_name
-        self.team1 = self.DS.get_team(team1_name)
-        self.team2 = self.DS.get_team(team2_name)
+    def __init__(self, team1:Team, team2:Team, DS: DataService):
+        self.DS = DS
+        self.team1 = team1
+        self.team2 = team2
         self.team1_evaluation = 0
         self.team2_evaluation = 0
         self.history = [0,0]
@@ -19,8 +17,8 @@ class Match:
     
     def evaluate_team1_vs_team2(self):
         
-        team1_dict = vars(self.team1)
-        team2_dict = vars(self.team2)
+        team1_dict = asdict(self.team1)
+        team2_dict = asdict(self.team2)
         print(asdict(self.DS.coefficients))
         for key in team1_dict:
             
@@ -30,7 +28,7 @@ class Match:
 
             self.evaluate_values(key, val1, val2)  
             
-        print(f"{self.team1_name} score: {self.team1_evaluation} ========= {self.team2_name} score: {self.team2_evaluation}")
+        print(f"{self.team1.name} score: {self.team1_evaluation} ========= {self.team2.name} score: {self.team2_evaluation}")
     
     def evaluate_values(self, key_for_coeff, value_for_team1, value_for_team2):
         try:
