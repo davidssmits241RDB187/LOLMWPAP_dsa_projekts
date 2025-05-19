@@ -1,7 +1,7 @@
-from coefficients_class import Coefficients
+from classes.coefficients_class import Coefficients
 
 
-
+#turn coefficients object into a list of values
 def flatten_coeffs(coeffs: Coefficients):
     coefficients = []
     for w_l in coeffs.__dict__.values():
@@ -33,7 +33,7 @@ def read_matches_from_file():
             for i, attribute in enumerate(attributes):
                 # coeff data dict key gets asigned values [x, y] from starting index to ending index (not included)
                 coeff_data[attribute] = values[i*2:i*2+2]
-
+            #unpack coeff_data dictionary to pass as arguments for the Coefficients class
             return Coefficients(**coeff_data)
     except FileNotFoundError:
         return Coefficients()
