@@ -119,11 +119,11 @@ class DataService:
             team_stats =  DataService.fetch_data(team_stats_address)
             if team_stats is None: continue
 
+            team_rows = team_stats.find_all("tr")
+            team = Team()
             team_name = link.string
             if team_name is not None: team.name = team_name
             
-            team_rows = team_stats.find_all("tr")
-            team = Team()
             last_row = ""
             for row in team_rows:
                 if not isinstance(row, Tag): continue
