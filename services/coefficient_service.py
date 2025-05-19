@@ -5,7 +5,6 @@ from dataclasses import dataclass, field
 
 @dataclass
 class Coefficients:
-    
     gold_per_minute_or_gold_lead: list[float] = field(default_factory=lambda: [1.0, 1.0])
     kills_per_game: list[float] = field(default_factory=lambda: [1.0, 1.0])
     avg_tower_difference: list[float] = field(default_factory=lambda: [1.0, 1.0])

@@ -19,10 +19,10 @@ class Match:
         
         team1_dict = asdict(self.team1)
         team2_dict = asdict(self.team2)
-        print(asdict(self.DS.coefficients))
+        #print(asdict(self.DS.coefficients))
         for key in team1_dict:
             
-            print(f"{self.team1_evaluation} ///// {self.team2_evaluation}")
+            #print(f"{self.team1_evaluation} ///// {self.team2_evaluation}")
             val1 = team1_dict[key]
             val2 = team2_dict[key]
 
@@ -49,8 +49,8 @@ class Match:
                
             else:
                 multiplier = 1.0
-            print(multiplier)
-            print("\n"+key_for_coeff)
+            #print(multiplier)
+            #print("\n"+key_for_coeff)
             if value_for_team1 > value_for_team2:
                 self.team1_evaluation += multiplier
                 
@@ -85,8 +85,8 @@ class Match:
                         
                     else:
                         multiplier = 1.0
-                    print(multiplier)
-                    print("\n"+coeff_key)
+                    #print(multiplier)
+                    #print("\n"+coeff_key)
                     if val1 > val2:
                         self.team1_evaluation += multiplier
                        

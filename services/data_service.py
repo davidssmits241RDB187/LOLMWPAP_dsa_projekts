@@ -424,13 +424,12 @@ class DataService:
                 print(e.args[0])
 
     def get_team(self, team_name):
-        print("Getting team...")
         try:
             if team_name in self.teams:
-                print(f"Found team {team_name}")
+                print(f"Found team: {team_name}")
                 return self.teams[team_name]
             else:
-                print(f"Team {team_name} not found.")
+                #print(f"Team {team_name} not found.")
                 return
         except Exception as e:
             print("Error getting team")
