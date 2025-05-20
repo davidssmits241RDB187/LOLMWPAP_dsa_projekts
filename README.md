@@ -3,12 +3,12 @@
 ## **Programmas funkcionalitātes apraksts**
 
 ### Programmas uzdevums ###
-```
+
 Programma 'LOLMWPAP' veic publiski pieejamo 'League of Legends (Riot Game 2009)' elektroniskā sporta turnīru maču un komandu datu analīzi un nolasa tuvāko maču komandu saturu lai noteiktu katras komandas iespējas uzvarēt vienai pret otru un publicē šo informāciju lietotājam.
-```
+
 
 ### Programmas funkcionalitātes apraksts
-```
+
 Programmas funkcijas iedalās procesos:
 1.1. Komandu pamatdatu ieguve un saglabāšana
 1.2. Koeficentu datu ieguve un saglabāšana
@@ -18,7 +18,7 @@ Programmas funkcijas iedalās procesos:
 2.3. Koeficentu datu izvade
 2.4. Komandu datu izvade
 2.5. Programmas aizvēršana
-```
+
 ### Izmantotās bibliotēkas
 * dataclasses *Tiek izmantots datu sagrupēšanai struktūrā kurai var loopot cauri*
 * os.path *Tiek izmantots failu rediģēšanai un datu saglabāšanai*
@@ -29,9 +29,7 @@ Programmas funkcijas iedalās procesos:
 * datetime *Izmanto lai noteiktu tuvākos mačus 12 h diapazonā*
 * bs4 *Tiek izmantots lai rediģētu html lapas datus ko iegūst requets*
 ## **Programmas izmantošanas ceļvedis**
-```
 
-```
 
 ## Programmas struktūras un koda apraksts
 Programma ir strukturizēta 3 pamatpgrupās:
