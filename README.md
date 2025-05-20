@@ -20,18 +20,14 @@ Programmas funkcijas iedalās procesos:
 2.5. Programmas aizvēršana
 ```
 ### Izmantotās bibliotēkas
-* dataclasses
-* os.path
-* json
-* requests
-* unicodedata
-* ast
-* datetime
-* timedelta
-* BeautifulSoup
-* Tag
-
-
+* dataclasses *Tiek izmantots datu sagrupēšanai struktūrā kurai var loopot cauri*
+* os.path *Tiek izmantots failu rediģēšanai un datu saglabāšanai*
+* json *Izmanto datu saglabāšanai un atkārtotai piekļuvei*
+* requests *Izmanto lai iegūtu komandu analīzei nepieciešamos datus*
+* unicodedata *Izmantots datu tipu nolasīšanas kļūmju atturēšanai un novēršanai*
+* ast *Izmanto string datu tipa parsēšamai no json uz python izmantojamiem datiem*
+* datetime *Izmanto lai noteiktu tuvākos mačus 12 h diapazonā*
+* bs4 *Tiek izmantots lai rediģētu html lapas datus ko iegūst requets*
 ## **Programmas izmantošanas ceļvedis**
 ```
 
@@ -301,6 +297,8 @@ Salīdzināt iedoto komandu datus, kuriem var izveidot koeficientus, un atjaunin
 <ul>
 <details>
 <summary>data_service.py</summary>
+
+
 <ul>Serialization
 <ul>
 <details>
@@ -336,15 +334,12 @@ Salīdzināt iedoto komandu datus, kuriem var izveidot koeficientus, un atjaunin
 </details>
 </ul>
 
+
 </details>
 </ul>
 
 
-</details>
-
-
-
-<ul>DataService
+DataService
 <ul>
 <details>
 <summary>atribūti</summary>
@@ -410,10 +405,16 @@ Salīdzināt iedoto komandu datus, kuriem var izveidot koeficientus, un atjaunin
 </ul>
 
 </details>
+
 </ul>
 
 
+
+
+
+
 </details>
+
 </ul>
 </details>
 
@@ -422,7 +423,37 @@ Salīdzināt iedoto komandu datus, kuriem var izveidot koeficientus, un atjaunin
 
 <details>
 <summary>controllers</summary>
-
+<ul>
+<details>
+<summary>match_controller.py</summary>
+<ul>MatchController
+<ul>
+<details>
+<summary>atribūti</summary>
+<ul>
+<em>Dotie dati tiek inicializēti __init__ metodē</em>
+<li>self.DS = DS</li>
+<li>self.team1 = team1</li>
+<li>self.team2 = team2</li>
+<li>self.team1_evaluation = 0</li>
+<li>self.team2_evaluation = 0</li>
+<li>self.history = [0,0]</li>
+</ul>
+</details>
+</ul>
+<ul>
+<details>
+<summary>funkcionalitāte</summary>
+Saglabā lokāli iedotās komandas datus kuras būs pretinieku pozīcijās mačā. Ar klases metodēm veic komandu analīzi un lietotājam sniedz tās rezultātus terminālī.
+</details>
+</ul>
+<ul>
+<details>
+<summary>metodes</summary>
+</details>
+</ul>
+</details>
+</ul>
 </details>
 
 
