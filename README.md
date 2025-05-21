@@ -29,7 +29,7 @@ Programmas funkcijas iedalās procesos:
 * datetime *Izmanto lai noteiktu tuvākos mačus 12 h diapazonā*
 * bs4 *Tiek izmantots lai rediģētu html lapas datus ko iegūst requets*
 ## **Programmas izmantošanas ceļvedis**
-1. Lejupielādējiet repozitorijas zip failu, sekcijā <Code>.
+1. Lejupielādējiet repozitorijas zip failu, sekcijā 'Code'.
 2. Veiciet 'Extract All...' operāciju uz lejupielādēto zip failu, saglabājiet personīgi skaidri pieejamā vietā.  
 3. Atrodiet failu 'main', kurš ir Python Source File faila formātā, un palaižiet to terminālī.  
 4. Turpmākas instrukcijas tiks izsniegtas terminālī programmas palaišanas laikā.  
