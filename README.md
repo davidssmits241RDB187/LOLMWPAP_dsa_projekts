@@ -2,8 +2,7 @@
 
 ## **Programmas funkcionalitātes apraksts**
 
-### Programmas uzdevums ###
-
+### Programmas uzdevums
 Programma 'LOLMWPAP' veic publiski pieejamo 'League of Legends (Riot Game 2009)' elektroniskā sporta turnīru maču un komandu datu analīzi un nolasa tuvāko maču komandu saturu lai noteiktu katras komandas iespējas uzvarēt vienai pret otru un publicē šo informāciju lietotājam.
 
 
