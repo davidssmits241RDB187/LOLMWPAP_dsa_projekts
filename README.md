@@ -22,7 +22,7 @@ Programmas funkcijas iedalās procesos:
 ### Izmantotās bibliotēkas
 * dataclasses *Tiek izmantots datu sagrupēšanai struktūrā kurai var loopot cauri un piekļūt datiem pēc izvēlētiem atslēgvārdiem*
 * os.path *Tiek izmantots failu rediģēšanai un datu saglabāšanai*
-* json *Izmanto datu saglabāšanai un atkārtotai piekļuvei*
+* json *Izmanto datu saglabāšanai un atkārtotai piekļuvei no python formāta uz json formātu, un apgriezti*
 * requests *Izmanto lai iegūtu komandu analīzei nepieciešamos datus*
 * unicodedata *Izmantots datu tipu nolasīšanas kļūmju atturēšanai un novēršanai*
 * ast *Izmanto string datu tipa parsēšamai no json uz python izmantojamiem datiem*
