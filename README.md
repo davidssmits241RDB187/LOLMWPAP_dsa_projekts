@@ -20,17 +20,21 @@ Programmas funkcijas iedalās procesos:
 2.5. Programmas aizvēršana  
 
 ### Izmantotās bibliotēkas
-* dataclasses *Tiek izmantots datu sagrupēšanai struktūrā kurai var loopot cauri*
+* dataclasses *Tiek izmantots datu sagrupēšanai klasē kurai nav nepieciešama inicializēšana bez _init_ metodes*
 * os.path *Tiek izmantots failu rediģēšanai un datu saglabāšanai*
-* json *Izmanto datu saglabāšanai un atkārtotai piekļuvei*
+* json *Izmanto datu saglabāšanai un atkārtotai piekļuvei no python formāta uz json formātu, un apgriezti*
 * requests *Izmanto lai iegūtu komandu analīzei nepieciešamos datus*
 * unicodedata *Izmantots datu tipu nolasīšanas kļūmju atturēšanai un novēršanai*
 * ast *Izmanto string datu tipa parsēšanai no string uz float vai int datiem*
 * datetime *Izmanto lai noteiktu tuvākos mačus 12 h diapazonā*
 * bs4 *Tiek izmantots lai rediģētu html lapas datus ko iegūst requets*
 ## **Programmas izmantošanas ceļvedis**
-
-
+1. Lejupielādējiet repozitorijas zip failu, sekcijā 'Code'.
+2. Veiciet 'Extract All...' operāciju uz lejupielādēto zip failu, saglabājiet personīgi skaidri pieejamā vietā.  
+3. Atrodiet failu 'main', kurš ir Python Source File faila formātā un nokopējiet faila 'path'.
+4. Palaižiet Windows termināli un ar komandu 'cd' + 'path' atveriet projekta path lokāciju.
+5. Ar komandu python main.py palaižiet programmu.
+6. Turpmākas instrukcijas tiks izsniegtas terminālī programmas palaišanas laikā.  
 ## Programmas struktūras un koda apraksts
 Lietošanas komandas `main.py`:
 <details>
