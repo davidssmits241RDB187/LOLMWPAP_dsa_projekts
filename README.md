@@ -466,3 +466,4 @@ Saglabā lokāli iedotās komandas datus kuras būs pretinieku pozīcijās mač�
 * Tiešraides mača komandu izanalizēšana, salīdzīnot mača stāvokli ar komandu datiem, klasēs `Team` un `Player`, kā arī izveidot jaunus koeficientus klasē `Coefficients`.
 * Koeficentu aprēķināšanas algoritmā iekļaut `matches_played` parametru lai noteiktu datu ietekmi.
 * Jāpārveido `Team` klases `deaths_per_game` atribūta izmantošana izvērtēšanas algoritmā.
+* Izveidot komandu un spēlētāju datu līmeņu sarakstus.
