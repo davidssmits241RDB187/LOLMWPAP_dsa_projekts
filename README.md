@@ -25,13 +25,60 @@ Programmas funkcijas iedalās procesos:
 * json *Izmanto datu saglabāšanai un atkārtotai piekļuvei*
 * requests *Izmanto lai iegūtu komandu analīzei nepieciešamos datus*
 * unicodedata *Izmantots datu tipu nolasīšanas kļūmju atturēšanai un novēršanai*
-* ast *Izmanto string datu tipa parsēšamai no json uz python izmantojamiem datiem*
+* ast *Izmanto string datu tipa parsēšanai no string uz float vai int datiem*
 * datetime *Izmanto lai noteiktu tuvākos mačus 12 h diapazonā*
 * bs4 *Tiek izmantots lai rediģētu html lapas datus ko iegūst requets*
 ## **Programmas izmantošanas ceļvedis**
 
 
 ## Programmas struktūras un koda apraksts
+Lietošanas komandas `main.py`:
+<details>
+<summary>0 - compare teams</summary>
+<ul>
+<li>Pieprasa 2 komandu ievadi
+<li>Iegūst komandu objektus no DataService
+<li>Izveido jaunu MatchController objektu no iegūtājām komandām
+<li>Veic komandu sadalīdzināšanu
+<li>Izvada iegūtos rezultātus
+</ul>
+</details>
+<details>
+<summary>1 - compare upcoming matches</summary>
+<ul>
+<li>Iegūst tūvākos mačus 12h laikā no DataService fetch_matches metodes
+<li>Katram mačam iegūst abu komandu objektus, ja komandas neeksistē, izlaiž maču
+<li>Izveido jaunu MatchController objektu no iegūtājām komandām
+<li>Veic komandu sadalīdzināšanu
+<li>Izvada iegūtos rezultātus
+</ul>
+</details>
+<details>
+<summary>2 - fetch coefficient data</summary>
+<ul>
+<li>Pielieto DataService fetch_coefficients metodi
+<li>Tiek iegūti visi sezonā notikušie turnīri un to mači
+<li>Aprēķina koeficientus katram mačam
+<li>Saglabā datus failā pēc katra turnīra
+</ul>
+</details>
+<details>
+<summary>3 - fetch team data</summary>
+<ul>
+<li>Pielieto DataService fetch_teams metodi
+<li>Tiek iegūtas visas komandas sezonā
+<li>Izveido jaunu Team objektu katrai komandai
+<li>Saglabā datus failā
+</ul>
+</details>
+<details>
+<summary>4 - close</summary>
+<ul>
+<li>Aptur programmu
+</ul>
+</details>
+
+<br>
 Programma ir strukturizēta 3 pamatpgrupās:
 <details>
 <summary>classes</summary>
@@ -300,14 +347,8 @@ Salīdzināt iedoto komandu datus, kuriem var izveidot koeficientus, un atjaunin
 <ul>Serialization
 <ul>
 <details>
-<summary>atribūti</summary>
-?
-</details>
-</ul>
-<ul>
-<details>
 <summary>funkcionalitāte</summary>
-?
+Veic datu pārformēšanu / kodēšanu.
 </details>
 </ul>
 <ul>
@@ -317,18 +358,42 @@ Salīdzināt iedoto komandu datus, kuriem var izveidot koeficientus, un atjaunin
 <ul>
 <details>
 <summary>encode_value</summary>
+<ul>
+<details>
+<summary>parametri</summary>
+<ul>
+<li>x</li>
+</ul>
+</details>
+</ul>
 </details>
 </ul>
 
 <ul>
 <details>
 <summary>get_float</summary>
+<ul>
+<details>
+<summary>parametri</summary>
+<ul>
+<li>x</li>
+</ul>
+</details>
+</ul>
 </details>
 </ul>
 
 <ul>
 <details>
 <summary>parse_str</summary>
+<ul>
+<details>
+<summary>parametri</summary>
+<ul>
+<li>x</li>
+</ul>
+</details>
+</ul>
 </details>
 </ul>
 
@@ -341,13 +406,16 @@ DataService
 <ul>
 <details>
 <summary>atribūti</summary>
-?
+<ul>
+<li>teams</li>
+<li>coefficients</li>
+</ul>
 </details>
 </ul>
 <ul>
 <details>
 <summary>funkcionalitāte</summary>
-?
+Iegūst datus un tos saglabā.
 </details>
 </ul>
 <ul>
