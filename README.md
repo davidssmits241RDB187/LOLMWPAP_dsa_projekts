@@ -9,15 +9,15 @@ Programma 'LOLMWPAP' veic publiski pieejamo 'League of Legends (Riot Game 2009)'
 
 ### Programmas funkcionalitātes apraksts
 
-Programmas funkcijas iedalās procesos:
-1.1. Komandu pamatdatu ieguve un saglabāšana
-1.2. Koeficentu datu ieguve un saglabāšana
-2. Lietotāja uzdevuma ievade
-2.1. Divu ievadītu komandu salīdzināšana
-2.2. Tuvāko maču 12 h laika diapazonā analīze
-2.3. Koeficentu datu izvade
-2.4. Komandu datu izvade
-2.5. Programmas aizvēršana
+Programmas funkcijas iedalās procesos:  
+1.1. Komandu pamatdatu ieguve un saglabāšana  
+1.2. Koeficentu datu ieguve un saglabāšana  
+2. Lietotāja uzdevuma ievade  
+2.1. Divu ievadītu komandu salīdzināšana  
+2.2. Tuvāko maču 12 h laika diapazonā analīze  
+2.3. Koeficentu datu izvade  
+2.4. Komandu datu izvade  
+2.5. Programmas aizvēršana  
 
 ### Izmantotās bibliotēkas
 * dataclasses *Tiek izmantots datu sagrupēšanai struktūrā kurai var loopot cauri*

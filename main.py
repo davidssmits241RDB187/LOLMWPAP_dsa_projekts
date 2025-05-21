@@ -13,7 +13,7 @@ def main():
         0 - compare teams
         1 - compare upcoming matches (12h)
         2 - fetch coefficient data (can be stopped)
-        3 - fetch team data
+        3 - fetch team data 
         4 - close
     ======================================================
         """)
