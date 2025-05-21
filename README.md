@@ -20,7 +20,7 @@ Programmas funkcijas iedalās procesos:
 2.5. Programmas aizvēršana  
 
 ### Izmantotās bibliotēkas
-* dataclasses *Tiek izmantots datu sagrupēšanai struktūrā kurai var loopot cauri un piekļūt datiem pēc izvēlētiem atslēgvārdiem*
+* dataclasses *Tiek izmantots datu sagrupēšanai klasē kurai nav nepieciešama inicializēšana bez _init_ metodes*
 * os.path *Tiek izmantots failu rediģēšanai un datu saglabāšanai*
 * json *Izmanto datu saglabāšanai un atkārtotai piekļuvei no python formāta uz json formātu, un apgriezti*
 * requests *Izmanto lai iegūtu komandu analīzei nepieciešamos datus*
