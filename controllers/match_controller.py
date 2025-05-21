@@ -23,9 +23,13 @@ class MatchController:
         print(f"Evaluating {self.team1.name} vs {self.team2.name}...")
         for key in team1_dict:
             
-            
-            val1 = team1_dict[key]
-            val2 = team2_dict[key]
+            if(key=="deaths_per_game"):
+                if team1_dict[key] !=0 and team2_dict[key]!=0:
+                    val1 = 1/team1_dict[key] 
+                    val2 = 1/team2_dict[key]
+            else:
+                val1 = team1_dict[key]
+                val2 = team2_dict[key]
 
             self.evaluate_values(key, val1, val2)  
             
