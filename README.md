@@ -31,8 +31,10 @@ Programmas funkcijas iedalās procesos:
 ## **Programmas izmantošanas ceļvedis**
 1. Lejupielādējiet repozitorijas zip failu, sekcijā 'Code'.
 2. Veiciet 'Extract All...' operāciju uz lejupielādēto zip failu, saglabājiet personīgi skaidri pieejamā vietā.  
-3. Atrodiet failu 'main', kurš ir Python Source File faila formātā, un palaižiet to terminālī.  
-4. Turpmākas instrukcijas tiks izsniegtas terminālī programmas palaišanas laikā.  
+3. Atrodiet failu 'main', kurš ir Python Source File faila formātā un nokopējiet faila 'path'.
+4. Palaižiet Windows termināli un ar komandu 'cd' + 'path' atveriet projekta path lokāciju.
+5. Ar komandu python main.py palaižiet programmu.
+6. Turpmākas instrukcijas tiks izsniegtas terminālī programmas palaišanas laikā.  
 ## Programmas struktūras un koda apraksts
 Programma ir strukturizēta 3 pamatpgrupās:
 <details>
