@@ -72,7 +72,7 @@ def main():
                 try:
                     DS.results_log(team1_name,team2_name,winning_team)
                 except Exception as e:
-                    print(f"An error occurred: {e}")
+                    print("Invalid input")
                 input("Input key to continue...")
                     
             case "5":
