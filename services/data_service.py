@@ -46,7 +46,6 @@ class DataService:
     def __init__(self):
         self.teams = {}
         self.coefficients = Coefficients()
-
         try:
             if os.path.isfile("data/team_data.json"):
                 with open("data/team_data.json", "r") as file:
@@ -439,3 +438,74 @@ class DataService:
 
     def get_coefficients(self):
         return self.coefficients
+    
+    @staticmethod
+    def log_matches(team_names_and_evaluation: dict):
+        team1_name = team_names_and_evaluation["team1"][0]
+        team1_evaluation = team_names_and_evaluation["team1"][1]
+        team2_name = team_names_and_evaluation["team2"][0]
+        team2_evaluation = team_names_and_evaluation["team2"][1]
+        try:
+            logs = []
+            
+            
+            if os.path.exists("data/logs.json"):
+                with open("data/logs.json", "r") as f:
+                    logs = json.load(f)
+            
+           
+            found = any(
+                log["team1"][0] == team1_name and log["team1"][1] == team1_evaluation and
+                log["team2"][0] == team2_name and log["team2"][1] == team2_evaluation
+                for log in logs
+            )
+            if not found:
+                new_log = {
+                    "team1": [team1_name,team1_evaluation],
+                    "team2": [team2_name,team2_evaluation]
+                }
+                logs.append(new_log)
+                with open("data/logs.json","w") as nf:
+                    json.dump(logs,nf,4)
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            
+    @staticmethod
+    def results_log(team1_name: str, team2_name: str, winning_team: str):
+        try:
+            logs = []
+            result_logs = [1, 1]
+
+            if os.path.exists("data/logs.json"):
+                with open("data/logs.json", "r") as f:
+                    logs = json.load(f)
+
+            if os.path.exists("data/result_logs.json"):
+                with open("data/result_logs.json", "r") as f:
+                    result_logs = json.load(f)
+
+            matching_log = next(
+                (log for log in logs if log["team1"][0] == team1_name and log["team2"][0] == team2_name),
+                None
+            )
+
+            if matching_log:
+                if matching_log["team1"][0] == winning_team:
+                    winning_value = matching_log["team1"][1]
+                elif matching_log["team2"][0] == winning_team:
+                    winning_value = matching_log["team2"][1]
+                
+
+                team1_eval = matching_log["team1"][1]
+                team2_eval = matching_log["team2"][1]
+
+                if winning_value == max(team1_eval, team2_eval):
+                    result_logs[0] += 1
+                else:
+                    result_logs[1] += 1
+
+            with open("data/result_logs.json", "w") as f:
+                json.dump(result_logs, f, indent=4)
+
+        except Exception as e:
+            print(f"An error occurred: {e}")

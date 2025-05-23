@@ -14,7 +14,8 @@ def main():
         1 - compare upcoming matches (12h)
         2 - fetch coefficient data (can be stopped)
         3 - fetch team data 
-        4 - close
+        4 - update results
+        5 - close
     ======================================================
         """)
         print("Enter your action: ", end="")
@@ -51,7 +52,8 @@ def main():
                         continue
 
                     match = MatchController(team1, team2, DS)
-                    match.evaluate_team1_vs_team2()
+                    
+                    DS.log_matches(match.evaluate_team1_vs_team2())
                 input("Input key to continue...")
 
             case "2":
@@ -63,7 +65,17 @@ def main():
                 os.system("cls||clear")
                 DS.fetch_teams()
                 input("Input key to continue...")
-
             case "4":
+                team1_name = str(input("Enter the first teams name: "))
+                team2_name = str(input("Enter the second teams name: "))
+                winning_team = str(input("Enter the winner teams name: "))
+                try:
+                    DS.results_log(team1_name,team2_name,winning_team)
+                except Exception as e:
+                    print(f"An error occurred: {e}")
+                input("Input key to continue...")
+                    
+            case "5":
                 break
+            
 main()

@@ -34,6 +34,7 @@ class MatchController:
             self.evaluate_values(key, val1, val2)  
             
         print(f"{self.team1.name} score: {self.team1_evaluation} ========= {self.team2.name} score: {self.team2_evaluation}")
+        return {"team1":[self.team1.name,self.team1_evaluation],"team2":[self.team2.name,self.team2_evaluation]}
     
     def evaluate_values(self, key_for_coeff, value_for_team1, value_for_team2):
         try:
