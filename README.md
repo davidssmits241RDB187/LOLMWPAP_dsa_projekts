@@ -301,13 +301,13 @@ Salīdzināt iedoto komandu datus, kuriem var izveidot koeficientus, un atjaunin
 <ul>
 <details>
 <summary>atribūti</summary>
-?
+---
 </details>
 </ul>
 <ul>
 <details>
 <summary>funkcionalitāte</summary>
-?
+Datu tipu pārbaude programas drošībai
 </details>
 </ul>
 <ul>
@@ -316,21 +316,90 @@ Salīdzināt iedoto komandu datus, kuriem var izveidot koeficientus, un atjaunin
 
 <ul>
 <details>
-<summary>encode_value</summary>
+<summary>@staticmethod encode_value</summary>
+<ul>
+<details>
+<summary>parametri</summary>
+<ul>
+<li>x</li>
+</ul>
+</details>
+</ul>
+<ul>
+<details>
+<summary>funkcionalitāte</summary>
+Convert dataclass to dict
+</details>
+</ul>
+<ul>
+<details>
+<summary>izvade</summary>
+x as dict or x
+</details>
+</ul>
 </details>
 </ul>
 
 <ul>
 <details>
-<summary>get_float</summary>
+<summary>@staticmethod get_float</summary>
+
+<ul>
+<details>
+<summary>parametri</summary>
+<ul>
+<li>x</li>
+</ul>
+</details>
+</ul>
+<ul>
+<details>
+<summary>funkcionalitāte</summary>
+Replace x as percentage to float decimal value
+</details>
+</ul>
+<ul>
+<details>
+<summary>izvade</summary>
+x as float
+</details>
+</ul>
 </details>
 </ul>
 
 <ul>
 <details>
-<summary>parse_str</summary>
+<summary>@staticmethod parse_str</summary>
+
+<ul>
+<details>
+<summary>parametri</summary>
+<ul>
+<li>s</li>
+</ul>
 </details>
 </ul>
+<ul>
+<details>
+<summary>funkcionalitāte</summary>
+Converts s to automatically deduced data type
+</details>
+</ul>
+<ul>
+<details>
+<summary>izvade</summary>
+s
+</details>
+</ul>
+</details>
+</ul>
+
+
+
+
+
+
+
 
 
 </details>
