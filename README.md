@@ -699,7 +699,7 @@ self.team1_evaluation+=multiplier | self.team2_evaluation+=multiplier
 ## *Iespējamās programmas kļūmes*
 * Saitu [[season](season-S15/split-Spring/tournament-ALL/), [teams_list_address](https://gol.gg/teams/list/),[teams_stats_address](https://gol.gg/teams/),[tournament_list_address](https://gol.gg/tournament/ajax.trlist.php),[tournament_address](https://gol.gg/tournament/tournament-matchlist/),[golgg_address](https://gol.gg/),[leaguepedia_address](https://lol.fandom.com/wiki/League_of_Legends_Esports_Wiki)] nobrukšana, slēgšanās ciet, datu privatizēšana, datu atrašanās vietas un etiķetes izmainīšana, kā arī datu novecošana.
 * `Team` klases objektu izvērtēšanā funkcijā `evaluate_coefficients` un klasē `match_controller`, atribūts `deaths_per_game` tiek izvērtēts kā visiem citiem datiem, tas var sniegt apgrieztu punktu komandas izvērtēšanā.
-
+* Nepareizu manuāla maču rezultātu reģistrācija var novest pie nepatiesiem datiem.
 ## Potenciālie programmas uzlabojumi
 * `MatchController` klases `self.history` atribūta pievienošana komandu izvērtēšanas procesā.
 * `Player` klases komandas biedru un pretinieku vēstures izveidošana un pievienošana `MatchController` komandu izvērtēšanas procesā.
@@ -707,3 +707,4 @@ self.team1_evaluation+=multiplier | self.team2_evaluation+=multiplier
 * Koeficentu aprēķināšanas algoritmā iekļaut `matches_played` parametru lai noteiktu datu ietekmi.
 * Jāpārveido `Team` klases `deaths_per_game` atribūta izmantošana izvērtēšanas algoritmā.
 * Izveidot komandu un spēlētāju datu līmeņu sarakstus.
+* Implementēt koeficientu adaptivitāti maču rezultātu `result_logs.json` datiem.
