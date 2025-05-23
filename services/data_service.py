@@ -445,15 +445,18 @@ class DataService:
         team1_evaluation = team_names_and_evaluation["team1"][1]
         team2_name = team_names_and_evaluation["team2"][0]
         team2_evaluation = team_names_and_evaluation["team2"][1]
+        print(team_names_and_evaluation)
         try:
             logs = []
             
             
             if os.path.exists("data/logs.json"):
                 with open("data/logs.json", "r") as f:
-                    logs = json.load(f)
+                    content = f.read().strip()
+                    if content:
+                        logs = json.loads(content)
             
-           
+
             found = any(
                 log["team1"][0] == team1_name and log["team1"][1] == team1_evaluation and
                 log["team2"][0] == team2_name and log["team2"][1] == team2_evaluation
@@ -465,8 +468,11 @@ class DataService:
                     "team2": [team2_name,team2_evaluation]
                 }
                 logs.append(new_log)
+                
                 with open("data/logs.json","w") as nf:
-                    json.dump(logs,nf,4)
+                    json.dump(logs,nf,indent=4)
+                    
+            print(logs)
         except Exception as e:
             print(f"An error occurred: {e}")
             
