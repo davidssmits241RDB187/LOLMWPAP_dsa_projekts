@@ -2,12 +2,11 @@
 
 ## **Programmas funkcionalitātes apraksts**
 
-### Programmas uzdevums ###
-
+### Programmas uzdevums
 Programma 'LOLMWPAP' veic publiski pieejamo 'League of Legends (Riot Game 2009)' elektroniskā sporta turnīru maču un komandu datu analīzi un nolasa tuvāko maču komandu saturu lai noteiktu katras komandas iespējas uzvarēt vienai pret otru un publicē šo informāciju lietotājam.
 
 
-### Programmas funkcionalitātes apraksts
+### Programmas funkcionalitāte
 
 Programmas funkcijas iedalās procesos:  
 1.1. Komandu pamatdatu ieguve un saglabāšana  
@@ -20,18 +19,69 @@ Programmas funkcijas iedalās procesos:
 2.5. Programmas aizvēršana  
 
 ### Izmantotās bibliotēkas
-* dataclasses *Tiek izmantots datu sagrupēšanai struktūrā kurai var loopot cauri*
+* dataclasses *Tiek izmantots datu sagrupēšanai klasē kurai nav nepieciešama inicializēšana bez _init_ metodes*
 * os.path *Tiek izmantots failu rediģēšanai un datu saglabāšanai*
-* json *Izmanto datu saglabāšanai un atkārtotai piekļuvei*
+* json *Izmanto datu saglabāšanai un atkārtotai piekļuvei no python formāta uz json formātu, un apgriezti*
 * requests *Izmanto lai iegūtu komandu analīzei nepieciešamos datus*
 * unicodedata *Izmantots datu tipu nolasīšanas kļūmju atturēšanai un novēršanai*
-* ast *Izmanto string datu tipa parsēšamai no json uz python izmantojamiem datiem*
+* ast *Izmanto string datu tipa parsēšanai no string uz float vai int datiem*
 * datetime *Izmanto lai noteiktu tuvākos mačus 12 h diapazonā*
 * bs4 *Tiek izmantots lai rediģētu html lapas datus ko iegūst requets*
 ## **Programmas izmantošanas ceļvedis**
-
-
+1. Lejupielādējiet repozitorijas zip failu, sekcijā 'Code'.
+2. Veiciet 'Extract All...' operāciju uz lejupielādēto zip failu, saglabājiet personīgi skaidri pieejamā vietā.  
+3. Atrodiet failu 'main', kurš ir Python Source File faila formātā un nokopējiet faila 'path'.
+4. Palaižiet Windows termināli un ar komandu 'cd' + 'path' atveriet projekta path lokāciju.
+5. Ar komandu python main.py palaižiet programmu.
+6. Turpmākas instrukcijas tiks izsniegtas terminālī programmas palaišanas laikā.  
 ## Programmas struktūras un koda apraksts
+Lietošanas komandas `main.py`:
+<details>
+<summary>0 - compare teams</summary>
+<ul>
+<li>Pieprasa 2 komandu ievadi
+<li>Iegūst komandu objektus no DataService
+<li>Izveido jaunu MatchController objektu no iegūtājām komandām
+<li>Veic komandu sadalīdzināšanu
+<li>Izvada iegūtos rezultātus
+</ul>
+</details>
+<details>
+<summary>1 - compare upcoming matches</summary>
+<ul>
+<li>Iegūst tūvākos mačus 12h laikā no DataService fetch_matches metodes
+<li>Katram mačam iegūst abu komandu objektus, ja komandas neeksistē, izlaiž maču
+<li>Izveido jaunu MatchController objektu no iegūtājām komandām
+<li>Veic komandu sadalīdzināšanu
+<li>Izvada iegūtos rezultātus
+</ul>
+</details>
+<details>
+<summary>2 - fetch coefficient data</summary>
+<ul>
+<li>Pielieto DataService fetch_coefficients metodi
+<li>Tiek iegūti visi sezonā notikušie turnīri un to mači
+<li>Aprēķina koeficientus katram mačam
+<li>Saglabā datus failā pēc katra turnīra
+</ul>
+</details>
+<details>
+<summary>3 - fetch team data</summary>
+<ul>
+<li>Pielieto DataService fetch_teams metodi
+<li>Tiek iegūtas visas komandas sezonā
+<li>Izveido jaunu Team objektu katrai komandai
+<li>Saglabā datus failā
+</ul>
+</details>
+<details>
+<summary>4 - close</summary>
+<ul>
+<li>Aptur programmu
+</ul>
+</details>
+
+<br>
 Programma ir strukturizēta 3 pamatpgrupās:
 <details>
 <summary>classes</summary>
@@ -410,13 +460,16 @@ DataService
 <ul>
 <details>
 <summary>atribūti</summary>
-?
+<ul>
+<li>teams</li>
+<li>coefficients</li>
+</ul>
 </details>
 </ul>
 <ul>
 <details>
 <summary>funkcionalitāte</summary>
-?
+Iegūst datus un tos saglabā.
 </details>
 </ul>
 <ul>
