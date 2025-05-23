@@ -515,3 +515,14 @@ class DataService:
 
         except Exception as e:
             print(f"An error occurred: {e}")
+            
+    @staticmethod
+    def get_results():
+        result_logs = [1,1]
+        try:
+            if os.path.exists("data/result_logs.json"):
+                with open("data/result_logs.json", "r") as f:
+                    result_logs = json.load(f)
+        except Exception:
+            pass
+        return result_logs[0]*100/(result_logs[1]+result_logs[0])

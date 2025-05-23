@@ -50,7 +50,6 @@ def main():
                     if team1 is None or team2 is None:
                         print("Teams not found")
                         continue
-
                     match = MatchController(team1, team2, DS)
                     
                     DS.log_matches(match.evaluate_team1_vs_team2())
@@ -73,7 +72,9 @@ def main():
                     DS.results_log(team1_name,team2_name,winning_team)
                 except Exception as e:
                     print("Invalid input")
+                print(f"Prediction percentage: {DS.get_results()}%")
                 input("Input key to continue...")
+                
                     
             case "5":
                 break
