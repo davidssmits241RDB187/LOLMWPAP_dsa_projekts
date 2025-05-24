@@ -413,8 +413,10 @@ class DataService:
                             setattr(losing_team, CoefficientRoles[j], player)
                         j += 1
                     i += 1
-
-                self.coefficients.evaluate_coefficients(winning_team, losing_team)
+                try:
+                    self.coefficients.evaluate_coefficients(winning_team, losing_team)
+                except Exception:
+                    continue
             print(f"Evaluated {tournament_name} ... Saving")
             try:
                 with open("data/coefficient_data.json", "w") as file:
