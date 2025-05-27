@@ -54,6 +54,7 @@ Lietošanas komandas `main.py`:
 <li>Katram mačam iegūst abu komandu objektus, ja komandas neeksistē, izlaiž maču
 <li>Izveido jaunu MatchController objektu no iegūtājām komandām
 <li>Veic komandu sadalīdzināšanu
+<li>Saglabā izvērtētos mačus ar DataService metodi log_matches
 <li>Izvada iegūtos rezultātus
 </ul>
 </details>
@@ -76,7 +77,15 @@ Lietošanas komandas `main.py`:
 </ul>
 </details>
 <details>
-<summary>4 - close</summary>
+<summary>4 - update results</summary>
+<ul>
+<li>Pielieto DataService results_log un get_results metodes
+<li>No data.json iegūst izvērtētos mačus
+<li>Atbilstoši ievadītajiem komandu datiem, atjaunina datus failā result_logs.json
+</ul>
+</details>
+<details>
+<summary>5 - close</summary>
 <ul>
 <li>Aptur programmu
 </ul>
