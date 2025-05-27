@@ -16,7 +16,7 @@ Programmas funkcijas iedalās procesos:
 2.2. Tuvāko maču 12 h laika diapazonā analīze  
 2.3. Koeficentu datu izvade  
 2.4. Komandu datu izvade  
-2.5. Maču izvērtēšanas rezultātu reģistrācija
+2.5. Maču izvērtēšanas rezultātu reģistrācija  
 2.6. Programmas aizvēršana  
 
 ### Izmantotās bibliotēkas
