@@ -265,7 +265,7 @@ class DataService:
                 if countdown_value is None: continue
 
                 countdown_value = countdown_value[:countdown_value.find(" +")]
-                countdown_date = datetime.strptime(countdown_value, "%d %b %Y %H:%M:%S")
+                countdown_date = datetime.strptime(countdown_value, "%d %B %Y %H:%M:%S")
                 if countdown_date < datetime.now() + timedelta(hours=12):
                     result.append({
                         "team1": team1,
